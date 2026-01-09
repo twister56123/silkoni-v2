@@ -21,6 +21,11 @@ import insta4 from '@/assets/instagram/post-4.jpg';
 
 // Import hero image
 import heroImage from '@/assets/hero.jpg';
+
+// Import benefit images
+import benefit1 from '@/assets/benefit-1.jpg';
+import benefit2 from '@/assets/benefit-2.jpg';
+import benefit3 from '@/assets/benefit-3.jpg';
 ---
 
 <Layout title="SILKONI - Шовкові наволочки та тюрбани">
@@ -129,7 +134,10 @@ import heroImage from '@/assets/hero.jpg';
             </div>
 
             <h3 class="text-xl font-bold mb-2">Шовкова наволочка</h3>
-            <p class="text-2xl font-bold text-black mb-2">1200 ₴</p>
+            <p class="mb-2">
+              <span class="text-lg text-gray-400 line-through mr-2">2500 ₴</span>
+              <span class="text-2xl font-bold text-black">1990 ₴</span>
+            </p>
             <p class="text-gray-700 mb-4">Преміальна шовкова наволочка для здорового сну</p>
 
             <!-- Color selector -->
@@ -200,7 +208,10 @@ import heroImage from '@/assets/hero.jpg';
             </div>
 
             <h3 class="text-xl font-bold mb-2">Шовковий тюрбан</h3>
-            <p class="text-2xl font-bold text-black mb-2">950 ₴</p>
+            <p class="mb-2">
+              <span class="text-lg text-gray-400 line-through mr-2">2500 ₴</span>
+              <span class="text-2xl font-bold text-black">1990 ₴</span>
+            </p>
             <p class="text-gray-700 mb-4">Шовковий тюрбан для делікатного догляду за волоссям</p>
 
             <!-- Color selector -->
@@ -257,26 +268,41 @@ import heroImage from '@/assets/hero.jpg';
       <div class="max-w-7xl mx-auto px-4">
         <h2 id="benefits-title" class="text-3xl font-bold text-center mb-12">Чому обирають шовк</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          
+
           <div class="text-center">
-            <div class="w-16 h-16 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center text-2xl" role="img" aria-label="Місяць">
-              🌙
+            <div class="w-24 h-24 md:w-32 md:h-32 mx-auto mb-4 rounded-full overflow-hidden shadow-md">
+              <img
+                src={benefit1.src}
+                alt="Здоровий сон"
+                class="w-full h-full object-cover"
+                loading="lazy"
+              />
             </div>
             <h3 class="font-bold mb-2">Здоровий сон</h3>
             <p class="text-gray-700">Шовк регулює температуру та забезпечує комфорт</p>
           </div>
 
           <div class="text-center">
-            <div class="w-16 h-16 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center text-2xl" role="img" aria-label="Волосся">
-              💇
+            <div class="w-24 h-24 md:w-32 md:h-32 mx-auto mb-4 rounded-full overflow-hidden shadow-md">
+              <img
+                src={benefit2.src}
+                alt="Краса волосся"
+                class="w-full h-full object-cover"
+                loading="lazy"
+              />
             </div>
             <h3 class="font-bold mb-2">Краса волосся</h3>
             <p class="text-gray-700">Зменшує тертя та запобігає ламкості волосся</p>
           </div>
 
           <div class="text-center">
-            <div class="w-16 h-16 bg-gray-200 rounded-full mx-auto mb-4 flex items-center justify-center text-2xl" role="img" aria-label="Зірки">
-              ✨
+            <div class="w-24 h-24 md:w-32 md:h-32 mx-auto mb-4 rounded-full overflow-hidden shadow-md">
+              <img
+                src={benefit3.src}
+                alt="Сяюча шкіра"
+                class="w-full h-full object-cover"
+                loading="lazy"
+              />
             </div>
             <h3 class="font-bold mb-2">Сяюча шкіра</h3>
             <p class="text-gray-700">Не забирає вологу та не залишає заломів</p>
