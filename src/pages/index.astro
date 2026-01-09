@@ -12,6 +12,12 @@ import turbanPink from '@/assets/products/turban-pink.jpg';
 import turbanSage from '@/assets/products/turban-sage.jpg';
 import turbanBlue from '@/assets/products/turban-blue.jpg';
 import turbanIvory from '@/assets/products/turban-ivory.jpg';
+
+// Import Instagram images
+import insta1 from '@/assets/instagram/post-1.jpg';
+import insta2 from '@/assets/instagram/post-2.jpg';
+import insta3 from '@/assets/instagram/post-3.jpg';
+import insta4 from '@/assets/instagram/post-4.jpg';
 ---
 
 <Layout title="SILKONI - Шовкові наволочки та тюрбани">
@@ -410,41 +416,44 @@ import turbanIvory from '@/assets/products/turban-ivory.jpg';
           class="block"
         >
           <div class="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4 max-w-4xl mx-auto">
-            <!-- Placeholder images - replace with real Instagram photos -->
-            <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden hover:opacity-90 transition-opacity">
-              <img
-                src="/instagram/post-1.jpg"
-                alt="Instagram пост"
+            <div class="aspect-square rounded-lg overflow-hidden hover:opacity-90 transition-opacity">
+              <Image
+                src={insta1}
+                alt="Instagram пост Silkoni"
+                width={300}
+                height={300}
                 class="w-full h-full object-cover"
                 loading="lazy"
-                onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-400\'>📷</div>'"
               />
             </div>
-            <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden hover:opacity-90 transition-opacity">
-              <img
-                src="/instagram/post-2.jpg"
-                alt="Instagram пост"
+            <div class="aspect-square rounded-lg overflow-hidden hover:opacity-90 transition-opacity">
+              <Image
+                src={insta2}
+                alt="Instagram пост Silkoni"
+                width={300}
+                height={300}
                 class="w-full h-full object-cover"
                 loading="lazy"
-                onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-400\'>📷</div>'"
               />
             </div>
-            <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden hover:opacity-90 transition-opacity">
-              <img
-                src="/instagram/post-3.jpg"
-                alt="Instagram пост"
+            <div class="aspect-square rounded-lg overflow-hidden hover:opacity-90 transition-opacity">
+              <Image
+                src={insta3}
+                alt="Instagram пост Silkoni"
+                width={300}
+                height={300}
                 class="w-full h-full object-cover"
                 loading="lazy"
-                onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-400\'>📷</div>'"
               />
             </div>
-            <div class="aspect-square bg-gray-100 rounded-lg overflow-hidden hover:opacity-90 transition-opacity">
-              <img
-                src="/instagram/post-4.jpg"
-                alt="Instagram пост"
+            <div class="aspect-square rounded-lg overflow-hidden hover:opacity-90 transition-opacity">
+              <Image
+                src={insta4}
+                alt="Instagram пост Silkoni"
+                width={300}
+                height={300}
                 class="w-full h-full object-cover"
                 loading="lazy"
-                onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-gray-400\'>📷</div>'"
               />
             </div>
           </div>
