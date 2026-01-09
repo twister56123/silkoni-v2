@@ -73,48 +73,22 @@ import insta4 from '@/assets/instagram/post-4.jpg';
           <!-- Product 1: Pillowcase -->
           <article
             class="border border-gray-200 rounded-lg p-6"
-            x-data="{
+            x-data={`{
               selectedColor: 'pink',
               colors: {
-                pink: { name: 'Рожевий', bg: 'bg-pink-300' },
-                sage: { name: 'Шавлієвий', bg: 'bg-green-300' },
-                blue: { name: 'Блакитний', bg: 'bg-blue-300' },
-                ivory: { name: 'Айворі', bg: 'bg-amber-200' }
+                pink: { name: 'Рожевий', src: '${pillowcasePink.src}' },
+                sage: { name: 'Шавлієвий', src: '${pillowcaseSage.src}' },
+                blue: { name: 'Блакитний', src: '${pillowcaseBlue.src}' },
+                ivory: { name: 'Айворі', src: '${pillowcaseIvory.src}' }
               }
-            }"
+            }`}
           >
-            <div class="aspect-square rounded-lg mb-4 overflow-hidden bg-gray-100 relative">
-              <!-- Pink -->
+            <div class="aspect-square rounded-lg mb-4 overflow-hidden bg-gray-100">
               <img
-                src={pillowcasePink.src}
-                alt="Шовкова наволочка рожевого кольору"
-                class="w-full h-full object-cover absolute inset-0 transition-opacity duration-300"
-                x-bind:class="selectedColor === 'pink' ? 'opacity-100' : 'opacity-0'"
+                x-bind:src="colors[selectedColor].src"
+                x-bind:alt="'Шовкова наволочка ' + colors[selectedColor].name + ' кольору'"
+                class="w-full h-full object-cover transition-opacity duration-300"
                 loading="eager"
-              />
-              <!-- Sage -->
-              <img
-                src={pillowcaseSage.src}
-                alt="Шовкова наволочка шавлієвого кольору"
-                class="w-full h-full object-cover absolute inset-0 transition-opacity duration-300"
-                x-bind:class="selectedColor === 'sage' ? 'opacity-100' : 'opacity-0'"
-                loading="lazy"
-              />
-              <!-- Blue -->
-              <img
-                src={pillowcaseBlue.src}
-                alt="Шовкова наволочка блакитного кольору"
-                class="w-full h-full object-cover absolute inset-0 transition-opacity duration-300"
-                x-bind:class="selectedColor === 'blue' ? 'opacity-100' : 'opacity-0'"
-                loading="lazy"
-              />
-              <!-- Ivory -->
-              <img
-                src={pillowcaseIvory.src}
-                alt="Шовкова наволочка кольору айворі"
-                class="w-full h-full object-cover absolute inset-0 transition-opacity duration-300"
-                x-bind:class="selectedColor === 'ivory' ? 'opacity-100' : 'opacity-0'"
-                loading="lazy"
               />
             </div>
 
@@ -170,47 +144,21 @@ import insta4 from '@/assets/instagram/post-4.jpg';
           <!-- Product 2: Turban -->
           <article
             class="border border-gray-200 rounded-lg p-6"
-            x-data="{
+            x-data={`{
               selectedColor: 'pink',
               colors: {
-                pink: { name: 'Рожевий', bg: 'bg-pink-300' },
-                sage: { name: 'Шавлієвий', bg: 'bg-green-300' },
-                blue: { name: 'Блакитний', bg: 'bg-blue-300' },
-                ivory: { name: 'Айворі', bg: 'bg-amber-200' }
+                pink: { name: 'Рожевий', src: '${turbanPink.src}' },
+                sage: { name: 'Шавлієвий', src: '${turbanSage.src}' },
+                blue: { name: 'Блакитний', src: '${turbanBlue.src}' },
+                ivory: { name: 'Айворі', src: '${turbanIvory.src}' }
               }
-            }"
+            }`}
           >
-            <div class="aspect-square rounded-lg mb-4 overflow-hidden bg-gray-100 relative">
-              <!-- Pink -->
+            <div class="aspect-square rounded-lg mb-4 overflow-hidden bg-gray-100">
               <img
-                src={turbanPink.src}
-                alt="Шовковий тюрбан рожевого кольору"
-                class="w-full h-full object-cover absolute inset-0 transition-opacity duration-300"
-                x-bind:class="selectedColor === 'pink' ? 'opacity-100' : 'opacity-0'"
-                loading="lazy"
-              />
-              <!-- Sage -->
-              <img
-                src={turbanSage.src}
-                alt="Шовковий тюрбан шавлієвого кольору"
-                class="w-full h-full object-cover absolute inset-0 transition-opacity duration-300"
-                x-bind:class="selectedColor === 'sage' ? 'opacity-100' : 'opacity-0'"
-                loading="lazy"
-              />
-              <!-- Blue -->
-              <img
-                src={turbanBlue.src}
-                alt="Шовковий тюрбан блакитного кольору"
-                class="w-full h-full object-cover absolute inset-0 transition-opacity duration-300"
-                x-bind:class="selectedColor === 'blue' ? 'opacity-100' : 'opacity-0'"
-                loading="lazy"
-              />
-              <!-- Ivory -->
-              <img
-                src={turbanIvory.src}
-                alt="Шовковий тюрбан кольору айворі"
-                class="w-full h-full object-cover absolute inset-0 transition-opacity duration-300"
-                x-bind:class="selectedColor === 'ivory' ? 'opacity-100' : 'opacity-0'"
+                x-bind:src="colors[selectedColor].src"
+                x-bind:alt="'Шовковий тюрбан ' + colors[selectedColor].name + ' кольору'"
+                class="w-full h-full object-cover transition-opacity duration-300"
                 loading="lazy"
               />
             </div>
