@@ -18,19 +18,38 @@ import insta1 from '@/assets/instagram/post-1.jpg';
 import insta2 from '@/assets/instagram/post-2.jpg';
 import insta3 from '@/assets/instagram/post-3.jpg';
 import insta4 from '@/assets/instagram/post-4.jpg';
+
+// Import hero image
+import heroImage from '@/assets/hero.jpg';
 ---
 
 <Layout title="SILKONI - Шовкові наволочки та тюрбани">
   
   <!-- HEADER -->
-  <header class="sticky top-0 z-50 bg-white border-b border-gray-200">
+  <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100">
     <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-      <a href="/" class="text-xl font-bold" aria-label="SILKONI - На головну">SILKONI</a>
-      <a 
-        href="#products" 
-        class="bg-black text-white px-4 py-2 rounded-md text-sm hover:bg-black/90 transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+      <a href="/" class="text-xl font-bold tracking-tight" aria-label="SILKONI - На головну">SILKONI</a>
+      <a
+        href="#products"
+        class="p-2 hover:scale-110 transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded-lg"
+        aria-label="Перейти до товарів"
       >
-        Замовити
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="text-black"
+        >
+          <circle cx="8" cy="21" r="1"/>
+          <circle cx="19" cy="21" r="1"/>
+          <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+        </svg>
       </a>
     </div>
   </header>
@@ -38,19 +57,35 @@ import insta4 from '@/assets/instagram/post-4.jpg';
   <main id="main-content">
     
     <!-- HERO -->
-    <section id="hero" class="bg-gray-50 py-16 md:py-24" aria-labelledby="hero-title">
-      <div class="max-w-7xl mx-auto px-4 text-center">
-        <h1 id="hero-title" class="text-4xl md:text-5xl font-bold mb-4">Прокидайся красивою</h1>
-        <p class="text-lg text-gray-700 mb-8 max-w-2xl mx-auto">
+    <section id="hero" class="relative min-h-[70vh] md:min-h-[80vh] flex items-center justify-center overflow-hidden" aria-labelledby="hero-title">
+      <!-- Background Image -->
+      <div class="absolute inset-0 z-0">
+        <img
+          src={heroImage.src}
+          alt=""
+          class="w-full h-full object-cover"
+          loading="eager"
+          fetchpriority="high"
+        />
+        <!-- Overlay for text readability -->
+        <div class="absolute inset-0 bg-black/30"></div>
+      </div>
+
+      <!-- Content -->
+      <div class="relative z-10 max-w-7xl mx-auto px-4 text-center text-white">
+        <h1 id="hero-title" class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 drop-shadow-lg">
+          Прокидайся красивою
+        </h1>
+        <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto drop-shadow-md">
           Шовкові наволочки та тюрбани для здорового волосся та сяючої шкіри
         </p>
         <a
           href="#products"
-          class="inline-block bg-black text-white px-8 py-4 rounded-xl text-lg shadow-md hover:shadow-xl hover:bg-gray-900 hover:-translate-y-0.5 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+          class="inline-block bg-white text-black px-8 py-4 rounded-xl text-lg font-medium shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black/30"
         >
           Обрати свою →
         </a>
-        <ul class="mt-8 flex flex-wrap justify-center gap-4 md:gap-8 text-sm text-gray-700" aria-label="Переваги">
+        <ul class="mt-8 flex flex-wrap justify-center gap-4 md:gap-8 text-sm drop-shadow-md" aria-label="Переваги">
           <li class="flex items-center gap-1">
             <span aria-hidden="true">✓</span> Натуральний шовк
           </li>
