@@ -4,7 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
-  site: "https://silkoni-v2.pages.dev",
+  site: "https://silkoni.com",
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],
