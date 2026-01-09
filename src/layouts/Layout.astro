@@ -12,6 +12,7 @@ const {
 const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://silkoni.com');
 
 import '../styles/global.css';
+import CartStore from '@/components/CartStore.astro';
 ---
 
 <!doctype html>
@@ -45,8 +46,9 @@ import '../styles/global.css';
     <meta name="theme-color" content="#000000" />
   </head>
   <body>
+    <CartStore />
     <slot />
-    
+
     <script>
       import Alpine from 'alpinejs';
       window.Alpine = Alpine;

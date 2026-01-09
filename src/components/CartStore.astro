@@ -1,0 +1,77 @@
+---
+// Cart Store - Alpine.js global store for cart functionality
+---
+
+<script>
+  document.addEventListener('alpine:init', () => {
+    Alpine.store('cart', {
+      items: [],
+      
+      init() {
+        // Load cart from localStorage on init
+        const saved = localStorage.getItem('silkoni-cart');
+        if (saved) {
+          try {
+            this.items = JSON.parse(saved);
+          } catch (e) {
+            this.items = [];
+          }
+        }
+      },
+      
+      save() {
+        localStorage.setItem('silkoni-cart', JSON.stringify(this.items));
+      },
+      
+      add(product, color, colorName, price) {
+        const existingIndex = this.items.findIndex(
+          item => item.product === product && item.color === color
+        );
+        
+        if (existingIndex > -1) {
+          this.items[existingIndex].quantity++;
+        } else {
+          this.items.push({
+            id: Date.now(),
+            product,
+            color,
+            colorName,
+            price,
+            quantity: 1
+          });
+        }
+        this.save();
+      },
+      
+      remove(id) {
+        this.items = this.items.filter(item => item.id !== id);
+        this.save();
+      },
+      
+      updateQuantity(id, change) {
+        const item = this.items.find(item => item.id === id);
+        if (item) {
+          item.quantity += change;
+          if (item.quantity <= 0) {
+            this.remove(id);
+          } else {
+            this.save();
+          }
+        }
+      },
+      
+      get totalItems() {
+        return this.items.reduce((sum, item) => sum + item.quantity, 0);
+      },
+      
+      get totalPrice() {
+        return this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      },
+      
+      clear() {
+        this.items = [];
+        this.save();
+      }
+    });
+  });
+</script>
