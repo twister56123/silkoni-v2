@@ -1,0 +1,146 @@
+---
+// Cart Drawer - Slide-in panel for cart
+---
+
+<div
+  x-data="{ open: false }"
+  @open-cart.window="open = true"
+  @keydown.escape.window="open = false"
+>
+  <!-- Backdrop -->
+  <div
+    x-show="open"
+    x-transition:enter="transition-opacity ease-out duration-300"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition-opacity ease-in duration-200"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+    @click="open = false"
+    class="fixed inset-0 bg-black/50 z-50"
+  ></div>
+
+  <!-- Drawer Panel -->
+  <div
+    x-show="open"
+    x-transition:enter="transition transform ease-out duration-300"
+    x-transition:enter-start="translate-x-full"
+    x-transition:enter-end="translate-x-0"
+    x-transition:leave="transition transform ease-in duration-200"
+    x-transition:leave-start="translate-x-0"
+    x-transition:leave-end="translate-x-full"
+    class="fixed right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl z-50 flex flex-col"
+  >
+    <!-- Header -->
+    <div class="flex items-center justify-between p-4 border-b border-gray-200">
+      <h2 class="text-xl font-bold">Кошик</h2>
+      <button
+        type="button"
+        @click="open = false"
+        class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+        aria-label="Закрити кошик"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Cart Items -->
+    <div class="flex-1 overflow-y-auto p-4">
+      <!-- Empty State -->
+      <template x-if="$store.cart.items.length === 0">
+        <div class="text-center py-12 text-gray-500">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-4 text-gray-300">
+            <circle cx="8" cy="21" r="1"/>
+            <circle cx="19" cy="21" r="1"/>
+            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+          </svg>
+          <p>Кошик порожній</p>
+          <button
+            type="button"
+            @click="open = false"
+            class="mt-4 text-black underline hover:no-underline"
+          >
+            Продовжити покупки
+          </button>
+        </div>
+      </template>
+
+      <!-- Items List -->
+      <template x-if="$store.cart.items.length > 0">
+        <div class="space-y-4">
+          <template x-for="item in $store.cart.items" :key="item.id">
+            <div class="flex gap-4 p-4 bg-gray-50 rounded-xl">
+              <!-- Item Info -->
+              <div class="flex-1">
+                <h3 class="font-medium" x-text="item.product"></h3>
+                <p class="text-sm text-gray-600">
+                  Колір: <span x-text="item.colorName"></span>
+                </p>
+                <p class="font-bold mt-1">
+                  <span x-text="item.price"></span> ₴
+                </p>
+              </div>
+
+              <!-- Quantity Controls -->
+              <div class="flex flex-col items-end gap-2">
+                <button
+                  type="button"
+                  @click="$store.cart.remove(item.id)"
+                  class="text-gray-400 hover:text-red-500 transition-colors"
+                  aria-label="Видалити"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+                </button>
+
+                <div class="flex items-center gap-2 bg-white rounded-lg border border-gray-200">
+                  <button
+                    type="button"
+                    @click="$store.cart.updateQuantity(item.id, -1)"
+                    class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded-l-lg transition-colors"
+                    aria-label="Зменшити кількість"
+                  >
+                    −
+                  </button>
+                  <span class="w-8 text-center font-medium" x-text="item.quantity"></span>
+                  <button
+                    type="button"
+                    @click="$store.cart.updateQuantity(item.id, 1)"
+                    class="w-8 h-8 flex items-center justify-center hover:bg-gray-100 rounded-r-lg transition-colors"
+                    aria-label="Збільшити кількість"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
+      </template>
+    </div>
+
+    <!-- Footer with Total -->
+    <template x-if="$store.cart.items.length > 0">
+      <div class="border-t border-gray-200 p-4 space-y-4">
+        <div class="flex justify-between items-center text-lg">
+          <span class="font-medium">Разом:</span>
+          <span class="font-bold text-xl">
+            <span x-text="$store.cart.totalPrice"></span> ₴
+          </span>
+        </div>
+
+        <button
+          type="button"
+          class="w-full bg-black text-white py-4 rounded-xl font-medium shadow-md hover:shadow-lg hover:bg-gray-900 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+        >
+          Оформити замовлення
+        </button>
+      </div>
+    </template>
+  </div>
+</div>
