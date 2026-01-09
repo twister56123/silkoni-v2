@@ -1,16 +1,22 @@
 ---
-
+import Layout from '../layouts/Layout.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="SILKONI - Шовкові наволочки та тюрбани">
+  <main class="min-h-screen flex items-center justify-center">
+    <div class="text-center">
+      <h1 class="text-4xl font-bold mb-4">SILKONI</h1>
+      <p class="text-gray-600 mb-8">Шовкові наволочки та тюрбани</p>
+      
+      <!-- Test Alpine.js -->
+      <div x-data="{ count: 0 }">
+        <button 
+          x-on:click="count++"
+          class="bg-black text-white px-6 py-3 rounded-md hover:bg-black/90 transition-colors"
+        >
+          Clicked: <span x-text="count"></span> times
+        </button>
+      </div>
+    </div>
+  </main>
+</Layout>
