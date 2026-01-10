@@ -165,6 +165,8 @@
 
     async submit() {
       if (!this.validate()) return;
+      
+      this.loading = true;
 
       try {
         const cart = Alpine.store('cart');
@@ -182,13 +184,73 @@
           }
         };
 
+        // Send order to Telegram + SalesDrive
         await fetch('https://silkoni-api.bozhko-andrej.workers.dev/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(orderData)
         });
 
-        // Track purchase in GA4
+        // If LiqPay selected, redirect to payment
+        if (this.form.payment === 'liqpay') {
+          const orderId = 'SILKONI-' + Date.now();
+          const description = cart.items.map(i => i.product + ' (' + i.colorName + ') x' + i.quantity).join(', ');
+          
+          const liqpayResponse = await fetch('https://silkoni-api.bozhko-andrej.workers.dev/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              liqpay: {
+                orderId: orderId,
+                amount: cart.totalPrice,
+                description: description
+              }
+            })
+          });
+          
+          const liqpayData = await liqpayResponse.json();
+          
+          if (liqpayData.checkoutUrl) {
+            // Track purchase in GA4
+            if (typeof gtag !== 'undefined') {
+              gtag('event', 'purchase', {
+                transaction_id: orderId,
+                currency: 'UAH',
+                value: cart.totalPrice,
+                items: cart.items.map(item => ({
+                  item_id: item.product.toLowerCase().replace(/ /g, '-') + '-' + item.color,
+                  item_name: item.product,
+                  item_variant: item.colorName,
+                  price: item.price,
+                  quantity: item.quantity
+                }))
+              });
+            }
+            
+            // Track in Zaraz
+            if (typeof zaraz !== 'undefined') {
+              zaraz.ecommerce('Order Completed', {
+                checkout_id: orderId,
+                products: cart.items.map(item => ({
+                  product_id: item.product.toLowerCase().replace(/ /g, '-') + '-' + item.color,
+                  name: item.product,
+                  variant: item.colorName,
+                  price: item.price,
+                  quantity: item.quantity
+                })),
+                total: cart.totalPrice,
+                currency: 'UAH'
+              });
+            }
+            
+            // Clear cart and redirect
+            cart.clear();
+            window.location.href = liqpayData.checkoutUrl;
+            return;
+          }
+        }
+
+        // COD: Track purchase in GA4
         if (typeof gtag !== 'undefined') {
           gtag('event', 'purchase', {
             transaction_id: Date.now().toString(),
@@ -203,59 +265,37 @@
             }))
           });
         }
-
-        // Track purchase in Facebook Pixel
-        if (typeof fbq !== 'undefined') {
-          fbq('track', 'Purchase', {
-            content_ids: cart.items.map(item => item.product.toLowerCase().replace(/ /g, '-') + '-' + item.color),
-            content_type: 'product',
-            value: cart.totalPrice,
-            currency: 'UAH',
-            num_items: cart.totalItems
+        
+        // Track in Zaraz
+        if (typeof zaraz !== 'undefined') {
+          zaraz.ecommerce('Order Completed', {
+            checkout_id: Date.now().toString(),
+            products: cart.items.map(item => ({
+              product_id: item.product.toLowerCase().replace(/ /g, '-') + '-' + item.color,
+              name: item.product,
+              variant: item.colorName,
+              price: item.price,
+              quantity: item.quantity
+            })),
+            total: cart.totalPrice,
+            currency: 'UAH'
           });
         }
 
         this.step = 'success';
-
         setTimeout(() => {
           Alpine.store('cart').clear();
         }, 100);
 
       } catch (error) {
         console.error('Order submit error:', error);
-        // Still show success to user (order might have been sent)
-
-        // Track purchase in GA4
-        if (typeof gtag !== 'undefined') {
-          gtag('event', 'purchase', {
-            transaction_id: Date.now().toString(),
-            currency: 'UAH',
-            value: cart.totalPrice,
-            items: cart.items.map(item => ({
-              item_id: item.product.toLowerCase().replace(/ /g, '-') + '-' + item.color,
-              item_name: item.product,
-              item_variant: item.colorName,
-              price: item.price,
-              quantity: item.quantity
-            }))
-          });
-        }
-
-        // Track purchase in Facebook Pixel
-        if (typeof fbq !== 'undefined') {
-          fbq('track', 'Purchase', {
-            content_ids: cart.items.map(item => item.product.toLowerCase().replace(/ /g, '-') + '-' + item.color),
-            content_type: 'product',
-            value: cart.totalPrice,
-            currency: 'UAH',
-            num_items: cart.totalItems
-          });
-        }
-
+        // Still show success (order might have been sent)
         this.step = 'success';
         setTimeout(() => {
           Alpine.store('cart').clear();
         }, 100);
+      } finally {
+        this.loading = false;
       }
     },
 
@@ -595,10 +635,12 @@
 
         <button
           type="button"
-          @click="gtag('event', 'begin_checkout', {currency: 'UAH', value: $store.cart.totalPrice, items: $store.cart.items.map(item => ({item_id: item.product.toLowerCase().replace(/ /g, '-') + '-' + item.color, item_name: item.product, item_variant: item.colorName, price: item.price, quantity: item.quantity}))}); fbq('track', 'InitiateCheckout', {content_ids: $store.cart.items.map(item => item.product.toLowerCase().replace(/ /g, '-') + '-' + item.color), content_type: 'product', value: $store.cart.totalPrice, currency: 'UAH', num_items: $store.cart.totalItems}); submit()"
-          class="w-full bg-black text-white py-4 rounded-xl font-medium shadow-md hover:shadow-lg hover:bg-gray-900 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+          @click="gtag('event', 'begin_checkout', {currency: 'UAH', value: $store.cart.totalPrice, items: $store.cart.items.map(item => ({item_id: item.product.toLowerCase().replace(/ /g, '-') + '-' + item.color, item_name: item.product, item_variant: item.colorName, price: item.price, quantity: item.quantity}))}); if (typeof zaraz !== 'undefined') { zaraz.ecommerce('Checkout Started', {products: $store.cart.items.map(item => ({product_id: item.product.toLowerCase().replace(/ /g, '-') + '-' + item.color, name: item.product, variant: item.colorName, price: item.price, quantity: item.quantity})), total: $store.cart.totalPrice}); } submit()"
+          :disabled="loading"
+          class="w-full bg-black text-white py-4 rounded-xl font-medium shadow-md hover:shadow-lg hover:bg-gray-900 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 disabled:bg-gray-400 disabled:cursor-not-allowed"
         >
-          <span x-text="form.payment === 'liqpay' ? 'Перейти до оплати' : 'Оформити замовлення'"></span>
+          <span x-show="!loading" x-text="form.payment === 'liqpay' ? 'Перейти до оплати' : 'Оформити замовлення'"></span>
+          <span x-show="loading">Обробка...</span>
         </button>
       </div>
     </template>
