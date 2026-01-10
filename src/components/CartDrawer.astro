@@ -11,6 +11,8 @@
       phone: '',
       city: '',
       cityRef: '',
+      warehouse: '',
+      warehouseRef: '',
       payment: 'cod',
       comment: ''
     },
@@ -21,6 +23,11 @@
     showCityDropdown: false,
     isLoadingCities: false,
     citySearchTimeout: null,
+
+    // Warehouse search
+    warehouses: [],
+    showWarehouseDropdown: false,
+    isLoadingWarehouses: false,
     errors: {},
 
     async searchCities(query) {
@@ -82,6 +89,52 @@
       this.form.cityRef = city.Ref;
       this.cities = [];
       this.showCityDropdown = false;
+
+      // Reset warehouse and load new ones
+      this.form.warehouse = '';
+      this.form.warehouseRef = '';
+      this.searchWarehouses(city.DeliveryCity);
+    },
+
+    async searchWarehouses(cityRef) {
+      this.isLoadingWarehouses = true;
+      this.warehouses = [];
+
+      try {
+        const response = await fetch('https://silkoni-api.bozhko-andrej.workers.dev/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            params: {
+              modelName: 'Address',
+              calledMethod: 'getWarehouses',
+              methodProperties: {
+                CityRef: cityRef,
+                Limit: 50
+              }
+            }
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.success && data.data) {
+          this.warehouses = data.data;
+        } else {
+          this.warehouses = [];
+        }
+      } catch (error) {
+        console.error('Warehouse search error:', error);
+        this.warehouses = [];
+      } finally {
+        this.isLoadingWarehouses = false;
+      }
+    },
+
+    selectWarehouse(warehouse) {
+      this.form.warehouse = warehouse.Description;
+      this.form.warehouseRef = warehouse.Ref;
+      this.showWarehouseDropdown = false;
     },
 
     validate() {
@@ -89,6 +142,7 @@
       if (!this.form.name.trim()) this.errors.name = 'Обовʼязкове поле';
       if (!this.form.phone.trim()) this.errors.phone = 'Обовʼязкове поле';
       if (!this.form.city.trim() || !this.form.cityRef) this.errors.city = 'Оберіть місто зі списку';
+      if (!this.form.warehouse.trim() || !this.form.warehouseRef) this.errors.warehouse = 'Оберіть відділення';
       return Object.keys(this.errors).length === 0;
     },
 
@@ -106,11 +160,13 @@
 
     reset() {
       this.step = 'cart';
-      this.form = { name: '', phone: '', city: '', cityRef: '', payment: 'cod', comment: '' };
+      this.form = { name: '', phone: '', city: '', cityRef: '', warehouse: '', warehouseRef: '', payment: 'cod', comment: '' };
       this.errors = {};
       this.citySearch = '';
       this.cities = [];
       this.showCityDropdown = false;
+      this.warehouses = [];
+      this.showWarehouseDropdown = false;
       this.open = false;
     }
   }"
@@ -323,6 +379,51 @@
                 </div>
 
                 <p x-show="errors.city" x-text="errors.city" class="text-red-500 text-sm mt-1"></p>
+              </div>
+
+              <!-- Warehouse -->
+              <div class="mb-4 relative" x-show="form.cityRef">
+                <label class="block text-sm font-medium mb-1" for="warehouse">Відділення *</label>
+                <input
+                  type="text"
+                  id="warehouse"
+                  x-model="form.warehouse"
+                  @click="showWarehouseDropdown = !showWarehouseDropdown"
+                  readonly
+                  class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-shadow cursor-pointer"
+                  :class="errors.warehouse ? 'border-red-500 ring-1 ring-red-500' : ''"
+                  placeholder="Оберіть відділення"
+                />
+
+                <!-- Loading spinner -->
+                <div x-show="isLoadingWarehouses" class="absolute right-3 top-1/2 transform -translate-y-1/2">
+                  <svg class="animate-spin h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                </div>
+
+                <!-- Dropdown -->
+                <div
+                  x-show="showWarehouseDropdown"
+                  x-transition:enter="transition ease-out duration-100"
+                  x-transition:enter-start="opacity-0 scale-95"
+                  x-transition:enter-end="opacity-100 scale-100"
+                  x-transition:leave="transition ease-in duration-75"
+                  x-transition:leave-start="opacity-100 scale-100"
+                  x-transition:leave-end="opacity-0 scale-95"
+                  class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-xl shadow-lg max-h-60 overflow-y-auto"
+                >
+                  <template x-for="warehouse in warehouses" :key="warehouse.Ref">
+                    <div
+                      @click="selectWarehouse(warehouse)"
+                      class="px-4 py-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+                      x-text="warehouse.Description"
+                    ></div>
+                  </template>
+                </div>
+
+                <p x-show="errors.warehouse" x-text="errors.warehouse" class="text-red-500 text-sm mt-1"></p>
               </div>
 
               <!-- Payment Method -->
