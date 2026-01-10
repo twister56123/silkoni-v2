@@ -4,8 +4,7 @@ import Layout from '@/layouts/Layout.astro';
 
 <Layout title="Доставка та оплата — SILKONI" description="Умови доставки та способи оплати в інтернет-магазині SILKONI">
   <main class="max-w-3xl mx-auto px-4 py-12">
-
-    <!-- Back link -->
+    
     <a href="/" class="inline-flex items-center text-gray-600 hover:text-black mb-8 transition-colors">
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="mr-2">
         <path d="M19 12H5M12 19l-7-7 7-7"/>
@@ -14,18 +13,19 @@ import Layout from '@/layouts/Layout.astro';
     </a>
 
     <h1 class="text-3xl font-bold mb-8">Доставка та оплата</h1>
-
+    
     <div class="prose prose-gray max-w-none space-y-8">
 
       <section>
-        <h2 class="text-xl font-bold mt-8 mb-4">Доставка по Україні</h2>
+        <h2 class="text-xl font-bold mt-8 mb-4">🚚 Доставка</h2>
         <p>
-          Доставку здійснює служба <strong>«Нова пошта»</strong> — до відділення або поштомату за вашим вибором.
+          Ми дбаємо про те, щоб ваша посилка прибула швидко та зручно.
         </p>
         <ul class="list-disc pl-6 space-y-2 mt-4">
-          <li>Вартість доставки оплачується відповідно до тарифів перевізника</li>
-          <li>Замовлення відправляються протягом <strong>1–2 робочих днів</strong> після оформлення</li>
-          <li>Орієнтовний термін доставки: <strong>1–3 дні</strong> залежно від міста</li>
+          <li>Доставка здійснюється по всій Україні службою <strong>«Нова Пошта»</strong></li>
+          <li>Терміни доставки: <strong>1–3 робочі дні</strong> з моменту оформлення</li>
+          <li>Вартість доставки — згідно тарифів перевізника</li>
+          <li>Доставка до відділення або поштомату за вашим вибором</li>
         </ul>
         <p class="mt-4 text-gray-600">
           У разі відмови від посилки витрати на зворотну пересилку оплачує покупець, окрім випадків, коли товар надійшов з дефектом.
@@ -33,32 +33,62 @@ import Layout from '@/layouts/Layout.astro';
       </section>
 
       <section>
-        <h2 class="text-xl font-bold mt-8 mb-4">Способи оплати</h2>
-        <p>Ви можете обрати зручний спосіб оплати:</p>
-        <ul class="list-disc pl-6 space-y-2 mt-4">
-          <li><strong>Накладений платіж</strong> — оплата при отриманні у відділенні Нової Пошти</li>
-          <li><strong>Онлайн-оплата карткою</strong> — Visa / MasterCard / Apple Pay через LiqPay</li>
-        </ul>
-        <p class="mt-4 text-gray-600">
-          Ціна товару не включає комісію банків або платіжних систем. Покупець самостійно сплачує такі збори, якщо вони передбачені.
-        </p>
+        <h2 class="text-xl font-bold mt-8 mb-4">💳 Способи оплати</h2>
+        <p>Ми цінуємо вашу довіру і прагнемо зробити процес оплати максимально простим та безпечним.</p>
+        
+        <div class="mt-4 space-y-4">
+          <div class="p-4 bg-gray-50 rounded-xl">
+            <h3 class="font-bold mb-2">Онлайн-оплата карткою</h3>
+            <p class="text-gray-600">Visa, Mastercard — швидко, зручно та безпечно через платіжну систему LiqPay</p>
+          </div>
+          
+          <div class="p-4 bg-gray-50 rounded-xl">
+            <h3 class="font-bold mb-2">Apple Pay / Google Pay</h3>
+            <p class="text-gray-600">Миттєва оплата з мобільного телефону на етапі оформлення замовлення</p>
+          </div>
+          
+          <div class="p-4 bg-gray-50 rounded-xl">
+            <h3 class="font-bold mb-2">Оплата при отриманні</h3>
+            <p class="text-gray-600">Накладений платіж — готівкою або карткою у відділенні «Нової Пошти»</p>
+          </div>
+          
+          <div class="p-4 bg-gray-50 rounded-xl">
+            <h3 class="font-bold mb-2">Безготівковий розрахунок</h3>
+            <p class="text-gray-600">Для юридичних осіб або великих замовлень — за реквізитами</p>
+          </div>
+        </div>
+
+        <!-- Payment Icons -->
+        <div class="flex items-center gap-4 mt-6">
+          <svg class="h-8" viewBox="0 0 50 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="12" font-family="Arial" font-size="10" font-weight="bold" fill="#1A1F71">VISA</text>
+          </svg>
+          <svg class="h-8" viewBox="0 0 50 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="6" cy="8" r="6" fill="#EB001B"/>
+            <circle cx="14" cy="8" r="6" fill="#F79E1B"/>
+          </svg>
+          <span class="text-gray-400 text-sm">LiqPay</span>
+        </div>
       </section>
 
       <section>
-        <h2 class="text-xl font-bold mt-8 mb-4">Контакти</h2>
+        <h2 class="text-xl font-bold mt-8 mb-4">📄 Реквізити для оплати</h2>
+        <div class="p-4 bg-gray-50 rounded-xl text-sm space-y-1">
+          <p><strong>Отримувач:</strong> ФО-П Божко Андрій Геннадійович</p>
+          <p><strong>РНОКПП:</strong> 3185509830</p>
+          <p><strong>IBAN:</strong> UA423052990000026001045912230</p>
+          <p><strong>Банк:</strong> АТ КБ "ПРИВАТБАНК"</p>
+          <p><strong>МФО:</strong> 305299</p>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-xl font-bold mt-8 mb-4">📞 Контакти</h2>
         <ul class="list-none space-y-2">
           <li>📱 <a href="tel:+380633710636" class="text-black underline hover:no-underline">063-371-06-36</a></li>
           <li>📱 <a href="tel:+380687363122" class="text-black underline hover:no-underline">068-736-31-22</a></li>
           <li>📧 <a href="mailto:hello@silkoni.com" class="text-black underline hover:no-underline">hello@silkoni.com</a></li>
         </ul>
-      </section>
-
-      <section class="border-t pt-8 mt-8">
-        <p class="text-sm text-gray-500">
-          <strong>Продавець:</strong> ФО-П Божко Андрій Геннадійович<br>
-          РНОКПП: 3185509830<br>
-          Україна
-        </p>
       </section>
 
     </div>
