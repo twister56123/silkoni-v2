@@ -19,8 +19,6 @@ import insta2 from '@/assets/instagram/post-2.jpg';
 import insta3 from '@/assets/instagram/post-3.jpg';
 import insta4 from '@/assets/instagram/post-4.jpg';
 
-// Import hero image
-import heroImage from '@/assets/hero.jpg';
 
 // Import benefit images
 import benefitSkin from '@/assets/benefit-skin.jpg';
@@ -76,12 +74,12 @@ import benefitRitual from '@/assets/benefit-ritual.jpg';
       <!-- Background Image -->
       <div class="absolute inset-0 z-0">
         <img
-          src={heroImage.src}
-          alt=""
-          class="w-full h-full object-cover"
-          loading="eager"
-          fetchpriority="high"
-        />
+  src="/hero.jpg"
+  alt=""
+  class="w-full h-full object-cover"
+  loading="eager"
+  fetchpriority="high"
+/>
         <!-- Overlay for text readability -->
         <div class="absolute inset-0 bg-black/20"></div>
       </div>

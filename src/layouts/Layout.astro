@@ -42,8 +42,8 @@ import CartDrawer from '@/components/CartDrawer.astro';
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content="/og-image.jpg" />
     
-    <!-- Preload hero image -->
-    <link rel="preload" as="image" href="/_astro/hero.DVyvvXmX.jpg" />
+     <!-- Preload hero image for LCP -->
+    <link rel="preload" as="image" href="/hero.jpg" fetchpriority="high" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
