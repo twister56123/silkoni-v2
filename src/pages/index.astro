@@ -23,9 +23,9 @@ import insta4 from '@/assets/instagram/post-4.jpg';
 import heroImage from '@/assets/hero.jpg';
 
 // Import benefit images
-import benefit1 from '@/assets/benefit-1.jpg';
-import benefit2 from '@/assets/benefit-2.jpg';
-import benefit3 from '@/assets/benefit-3.jpg';
+import benefitSkin from '@/assets/benefit-skin.jpg';
+import benefitHair from '@/assets/benefit-hair.jpg';
+import benefitRitual from '@/assets/benefit-ritual.jpg';
 ---
 
 <Layout title="SILKONI - Шовкові наволочки та тюрбани">
@@ -276,48 +276,51 @@ import benefit3 from '@/assets/benefit-3.jpg';
     </section>
 
     <!-- BENEFITS -->
-    <section id="benefits" class="bg-gradient-to-b from-gray-50 to-white py-16 md:py-24" aria-labelledby="benefits-title">
+    <section id="benefits" class="py-16 md:py-24" aria-labelledby="benefits-title">
       <div class="max-w-7xl mx-auto px-4">
         <h2 id="benefits-title" class="text-3xl font-bold text-center mb-12">Чому обирають шовк</h2>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-          <div class="text-center">
-            <div class="w-24 h-24 md:w-32 md:h-32 mx-auto mb-4 rounded-full overflow-hidden shadow-md">
-              <img
-                src={benefit1.src}
-                alt="Здоровий сон"
-                class="w-full h-full object-cover"
-                loading="lazy"
-              />
+          <div class="relative h-80 md:h-96 rounded-2xl overflow-hidden shadow-lg group">
+            <Image
+              src={benefitSkin}
+              alt="Сяюча шкіра"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+              <h3 class="text-xl font-bold mb-2">Сяюча шкіра</h3>
+              <p class="text-sm">Шовк не забирає вологу та не залишає заломів на обличчі. Прокидайся сяючою.</p>
             </div>
-            <h3 class="font-bold mb-2">Здоровий сон</h3>
-            <p class="text-gray-700">Шовк регулює температуру та забезпечує комфорт</p>
           </div>
 
-          <div class="text-center">
-            <div class="w-24 h-24 md:w-32 md:h-32 mx-auto mb-4 rounded-full overflow-hidden shadow-md">
-              <img
-                src={benefit2.src}
-                alt="Краса волосся"
-                class="w-full h-full object-cover"
-                loading="lazy"
-              />
+          <div class="relative h-80 md:h-96 rounded-2xl overflow-hidden shadow-lg group">
+            <Image
+              src={benefitHair}
+              alt="Розкішне волосся"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+              <h3 class="text-xl font-bold mb-2">Розкішне волосся</h3>
+              <p class="text-sm">Менше тертя — менше ламкості. Твоє волосся зберігає силу та природне сяйво.</p>
             </div>
-            <h3 class="font-bold mb-2">Краса волосся</h3>
-            <p class="text-gray-700">Зменшує тертя та запобігає ламкості волосся</p>
           </div>
 
-          <div class="text-center">
-            <div class="w-24 h-24 md:w-32 md:h-32 mx-auto mb-4 rounded-full overflow-hidden shadow-md">
-              <img
-                src={benefit3.src}
-                alt="Сяюча шкіра"
-                class="w-full h-full object-cover"
-                loading="lazy"
-              />
+          <div class="relative h-80 md:h-96 rounded-2xl overflow-hidden shadow-lg group">
+            <Image
+              src={benefitRitual}
+              alt="Любов до себе"
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 right-0 p-6 text-white">
+              <h3 class="text-xl font-bold mb-2">Любов до себе</h3>
+              <p class="text-sm">Починається з деталей. Шовкова наволочка — це щоденний ритуал турботи про себе.</p>
             </div>
-            <h3 class="font-bold mb-2">Сяюча шкіра</h3>
-            <p class="text-gray-700">Не забирає вологу та не залишає заломів</p>
           </div>
 
         </div>
