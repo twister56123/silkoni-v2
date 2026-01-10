@@ -10,16 +10,85 @@
       name: '',
       phone: '',
       city: '',
+      cityRef: '',
       payment: 'cod',
       comment: ''
     },
+
+    // City search
+    citySearch: '',
+    cities: [],
+    showCityDropdown: false,
+    isLoadingCities: false,
+    citySearchTimeout: null,
     errors: {},
+
+    async searchCities(query) {
+      if (query.length < 2) {
+        this.cities = [];
+        this.showCityDropdown = false;
+        return;
+      }
+
+      this.isLoadingCities = true;
+
+      try {
+        const response = await fetch('https://silkoni-api.bozhko-andrej.workers.dev/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            params: {
+              modelName: 'Address',
+              calledMethod: 'searchSettlements',
+              methodProperties: {
+                CityName: query,
+                Limit: 10
+              }
+            }
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.success && data.data && data.data[0]) {
+          this.cities = data.data[0].Addresses || [];
+        } else {
+          this.cities = [];
+        }
+
+        this.showCityDropdown = this.cities.length > 0;
+      } catch (error) {
+        console.error('City search error:', error);
+        this.cities = [];
+      } finally {
+        this.isLoadingCities = false;
+      }
+    },
+
+    onCityInput(value) {
+      this.citySearch = value;
+      this.form.city = '';
+      this.form.cityRef = '';
+
+      clearTimeout(this.citySearchTimeout);
+      this.citySearchTimeout = setTimeout(() => {
+        this.searchCities(value);
+      }, 300);
+    },
+
+    selectCity(city) {
+      this.citySearch = city.Present;
+      this.form.city = city.Present;
+      this.form.cityRef = city.Ref;
+      this.cities = [];
+      this.showCityDropdown = false;
+    },
 
     validate() {
       this.errors = {};
       if (!this.form.name.trim()) this.errors.name = 'Обовʼязкове поле';
       if (!this.form.phone.trim()) this.errors.phone = 'Обовʼязкове поле';
-      if (!this.form.city.trim()) this.errors.city = 'Обовʼязкове поле';
+      if (!this.form.city.trim() || !this.form.cityRef) this.errors.city = 'Оберіть місто зі списку';
       return Object.keys(this.errors).length === 0;
     },
 
@@ -37,8 +106,11 @@
 
     reset() {
       this.step = 'cart';
-      this.form = { name: '', phone: '', city: '', payment: 'cod', comment: '' };
+      this.form = { name: '', phone: '', city: '', cityRef: '', payment: 'cod', comment: '' };
       this.errors = {};
+      this.citySearch = '';
+      this.cities = [];
+      this.showCityDropdown = false;
       this.open = false;
     }
   }"
@@ -208,16 +280,48 @@
               </div>
 
               <!-- City -->
-              <div class="mb-4">
+              <div class="mb-4 relative">
                 <label class="block text-sm font-medium mb-1" for="city">Місто *</label>
                 <input
                   type="text"
                   id="city"
-                  x-model="form.city"
+                  x-model="citySearch"
+                  @input="onCityInput($event.target.value)"
+                  @focus="showCityDropdown = cities.length > 0"
+                  @blur="setTimeout(() => showCityDropdown = false, 200)"
                   class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-shadow"
                   :class="errors.city ? 'border-red-500 ring-1 ring-red-500' : ''"
                   placeholder="Ваше місто"
                 />
+
+                <!-- Loading spinner -->
+                <div x-show="isLoadingCities" class="absolute right-3 top-1/2 transform -translate-y-1/2">
+                  <svg class="animate-spin h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                </div>
+
+                <!-- Dropdown -->
+                <div
+                  x-show="showCityDropdown"
+                  x-transition:enter="transition ease-out duration-100"
+                  x-transition:enter-start="opacity-0 scale-95"
+                  x-transition:enter-end="opacity-100 scale-100"
+                  x-transition:leave="transition ease-in duration-75"
+                  x-transition:leave-start="opacity-100 scale-100"
+                  x-transition:leave-end="opacity-0 scale-95"
+                  class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-xl shadow-lg max-h-60 overflow-y-auto"
+                >
+                  <template x-for="city in cities" :key="city.Ref">
+                    <div
+                      @click="selectCity(city)"
+                      class="px-4 py-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0"
+                      x-text="city.Present"
+                    ></div>
+                  </template>
+                </div>
+
                 <p x-show="errors.city" x-text="errors.city" class="text-red-500 text-sm mt-1"></p>
               </div>
 
