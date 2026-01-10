@@ -139,17 +139,23 @@
       this.showWarehouseDropdown = false;
     },
 
+    validatePhone() {
+      const digits = this.form.phone.replace(/\D/g, '');
+      if (!this.form.phone.trim()) {
+        this.errors.phone = 'Обовʼязкове поле';
+      } else if (digits.length < 9) {
+        this.errors.phone = 'Введіть 9 цифр номера';
+      } else if (digits.length > 9) {
+        this.errors.phone = 'Максимум 9 цифр';
+      } else {
+        delete this.errors.phone;
+      }
+    },
+
     validate() {
       this.errors = {};
       if (!this.form.name.trim()) this.errors.name = 'Обовʼязкове поле';
-      if (!this.form.phone.trim()) {
-        this.errors.phone = 'Обовʼязкове поле';
-      } else {
-        const digits = this.form.phone.replace(/\D/g, '');
-        if (digits.length < 9) {
-          this.errors.phone = 'Введіть 9 цифр номера';
-        }
-      }
+      this.validatePhone();
       if (!this.form.city.trim() || !this.form.cityRef) this.errors.city = 'Оберіть місто зі списку';
       if (!this.form.warehouse.trim() || !this.form.warehouseRef) this.errors.warehouse = 'Оберіть відділення';
       return Object.keys(this.errors).length === 0;
@@ -404,6 +410,7 @@
                     type="tel"
                     id="phone"
                     x-model="form.phone"
+                    @blur="validatePhone()"
                     class="w-full pl-16 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-shadow"
                     :class="errors.phone ? 'border-red-500 ring-1 ring-red-500' : ''"
                     placeholder="XX XXX XXXX"
