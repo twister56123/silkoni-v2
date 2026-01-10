@@ -140,7 +140,14 @@
     validate() {
       this.errors = {};
       if (!this.form.name.trim()) this.errors.name = 'Обовʼязкове поле';
-      if (!this.form.phone.trim()) this.errors.phone = 'Обовʼязкове поле';
+      if (!this.form.phone.trim()) {
+        this.errors.phone = 'Обовʼязкове поле';
+      } else {
+        const digits = this.form.phone.replace(/\D/g, '');
+        if (digits.length < 10) {
+          this.errors.phone = 'Мінімум 10 цифр';
+        }
+      }
       if (!this.form.city.trim() || !this.form.cityRef) this.errors.city = 'Оберіть місто зі списку';
       if (!this.form.warehouse.trim() || !this.form.warehouseRef) this.errors.warehouse = 'Оберіть відділення';
       return Object.keys(this.errors).length === 0;
