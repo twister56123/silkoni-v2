@@ -28,6 +28,7 @@
     warehouses: [],
     showWarehouseDropdown: false,
     isLoadingWarehouses: false,
+    warehouseSearch: '',
     errors: {},
 
     async searchCities(query) {
@@ -144,8 +145,8 @@
         this.errors.phone = 'Обовʼязкове поле';
       } else {
         const digits = this.form.phone.replace(/\D/g, '');
-        if (digits.length < 10) {
-          this.errors.phone = 'Мінімум 10 цифр';
+        if (digits.length < 9) {
+          this.errors.phone = 'Введіть 9 цифр номера';
         }
       }
       if (!this.form.city.trim() || !this.form.cityRef) this.errors.city = 'Оберіть місто зі списку';
@@ -162,7 +163,7 @@
         const orderData = {
           order: {
             name: this.form.name,
-            phone: this.form.phone,
+            phone: '+380' + this.form.phone.replace(/\D/g, ''),
             city: this.form.city,
             warehouse: this.form.warehouse,
             payment: this.form.payment,
@@ -236,6 +237,7 @@
       this.showCityDropdown = false;
       this.warehouses = [];
       this.showWarehouseDropdown = false;
+      this.warehouseSearch = '';
       this.open = false;
     }
   }"
@@ -393,14 +395,19 @@
               <!-- Phone -->
               <div class="mb-4">
                 <label class="block text-sm font-medium mb-1" for="phone">Телефон *</label>
-                <input
-                  type="tel"
-                  id="phone"
-                  x-model="form.phone"
-                  class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-shadow"
-                  :class="errors.phone ? 'border-red-500 ring-1 ring-red-500' : ''"
-                  placeholder="+380 XX XXX XXXX"
-                />
+                <div class="relative">
+                  <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 font-medium pointer-events-none">
+                    +380
+                  </div>
+                  <input
+                    type="tel"
+                    id="phone"
+                    x-model="form.phone"
+                    class="w-full pl-16 pr-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-shadow"
+                    :class="errors.phone ? 'border-red-500 ring-1 ring-red-500' : ''"
+                    placeholder="XX XXX XXXX"
+                  />
+                </div>
                 <p x-show="errors.phone" x-text="errors.phone" class="text-red-500 text-sm mt-1"></p>
               </div>
 
@@ -456,12 +463,12 @@
                 <input
                   type="text"
                   id="warehouse"
-                  x-model="form.warehouse"
+                  x-model="warehouseSearch"
+                  @input="warehouseSearch = $event.target.value"
                   @click="showWarehouseDropdown = !showWarehouseDropdown"
-                  readonly
                   class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent transition-shadow cursor-pointer"
                   :class="errors.warehouse ? 'border-red-500 ring-1 ring-red-500' : ''"
-                  placeholder="Оберіть відділення"
+                  placeholder="Пошук відділення"
                 />
 
                 <!-- Loading spinner -->
@@ -483,12 +490,17 @@
                   x-transition:leave-end="opacity-0 scale-95"
                   class="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-xl shadow-lg max-h-60 overflow-y-auto"
                 >
-                  <template x-for="warehouse in warehouses" :key="warehouse.Ref">
+                  <template x-for="warehouse in warehouses.filter(w => !warehouseSearch || w.Description.toLowerCase().includes(warehouseSearch.toLowerCase()))" :key="warehouse.Ref">
                     <div
                       @click="selectWarehouse(warehouse)"
                       class="px-4 py-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-b-0"
                       x-text="warehouse.Description"
                     ></div>
+                  </template>
+                  <template x-if="warehouses.filter(w => !warehouseSearch || w.Description.toLowerCase().includes(warehouseSearch.toLowerCase())).length === 0">
+                    <div class="px-4 py-3 text-gray-500 text-center">
+                      Відділення не знайдено
+                    </div>
                   </template>
                 </div>
 
