@@ -4,9 +4,9 @@ interface Props {
   description?: string;
 }
 
-const { 
-  title, 
-  description = "Преміальні шовкові наволочки та тюрбани для здорового сну та краси волосся. Натуральний шовк. Доставка по Україні." 
+const {
+  title,
+  description = "Преміальні шовкові наволочки та тюрбани для здорового сну та краси волосся. Натуральний шовк 22 momme. Доставка по Україні."
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? 'https://silkoni.com');
@@ -23,7 +23,7 @@ import CartDrawer from '@/components/CartDrawer.astro';
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <!-- SEO -->
-    <title>{title}</title>
+    <title>{title || 'Шовкові наволочки та тюрбани преміум якості | SILKONI'}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
     
@@ -35,13 +35,114 @@ import CartDrawer from '@/components/CartDrawer.astro';
     <meta property="og:locale" content="uk_UA" />
     <meta property="og:site_name" content="SILKONI" />
     <meta property="og:image" content="/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="SILKONI - Шовкові наволочки та тюрбани" />
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content="/og-image.jpg" />
-    
+    <meta name="twitter:image:alt" content="SILKONI - Шовкові наволочки та тюрбани" />
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://silkoni.com/#organization",
+          "name": "SILKONI",
+          "url": "https://silkoni.com",
+          "logo": "https://silkoni.com/favicon.svg",
+          "sameAs": [
+            "https://www.instagram.com/silkoni.beauty/"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://silkoni.com/#website",
+          "url": "https://silkoni.com",
+          "name": "SILKONI",
+          "publisher": {"@id": "https://silkoni.com/#organization"}
+        },
+        {
+          "@type": "Product",
+          "name": "Шовкова наволочка SILKONI",
+          "description": "Преміальна шовкова наволочка для здорового сну. 100% натуральний шовк 22 momme.",
+          "image": "https://silkoni.com/og-image.jpg",
+          "brand": {
+            "@type": "Brand",
+            "name": "SILKONI"
+          },
+          "offers": {
+            "@type": "Offer",
+            "price": "2190",
+            "priceCurrency": "UAH",
+            "availability": "https://schema.org/InStock",
+            "url": "https://silkoni.com/#products",
+            "priceValidUntil": "2026-12-31"
+          }
+        },
+        {
+          "@type": "Product",
+          "name": "Шовковий тюрбан SILKONI",
+          "description": "Шовковий тюрбан для делікатного догляду за волоссям. 100% натуральний шовк.",
+          "image": "https://silkoni.com/og-image.jpg",
+          "brand": {
+            "@type": "Brand",
+            "name": "SILKONI"
+          },
+          "offers": {
+            "@type": "Offer",
+            "price": "1990",
+            "priceCurrency": "UAH",
+            "availability": "https://schema.org/InStock",
+            "url": "https://silkoni.com/#products",
+            "priceValidUntil": "2026-12-31"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Як доглядати за шовковою наволочкою?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Рекомендуємо ручне прання при температурі до 30°C. Не використовуйте відбілювачі та пральну машину."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Яка доставка?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Доставляємо Новою Поштою по всій Україні за тарифами перевізника."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Чи можна повернути товар?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Згідно законодавства, шовкові вироби належної якості не підлягають поверненню. Обмін або повернення можливі тільки при виявленні дефекту протягом 7 днів."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Це справжній шовк?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Так, ми використовуємо 100% натуральний шовк щільністю 22 momme — це преміальна якість."
+              }
+            }
+          ]
+        }
+      ]
+    })} />
+
      <!-- Preload hero image for LCP -->
     <link rel="preload" as="image" href="/hero-mobile.jpg" media="(max-width: 768px)" fetchpriority="high" />
     <link rel="preload" as="image" href="/hero.jpg" media="(min-width: 769px)" fetchpriority="high" />
