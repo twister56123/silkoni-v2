@@ -18,7 +18,7 @@
     validate() {
       this.errors = {};
       if (!this.form.name.trim()) this.errors.name = 'Обовʼязкове поле';
-if (!this.form.phone.trim()) this.errors.phone = 'Обовʼязкове поле';
+      if (!this.form.phone.trim()) this.errors.phone = 'Обовʼязкове поле';
       if (!this.form.city.trim()) this.errors.city = 'Обовʼязкове поле';
       return Object.keys(this.errors).length === 0;
     },
@@ -31,7 +31,7 @@ if (!this.form.phone.trim()) this.errors.phone = 'Обовʼязкове пол�
 
       // Clear cart after successful order
       setTimeout(() => {
-        $store.cart.clear();
+        Alpine.store('cart').clear();
       }, 100);
     },
 
