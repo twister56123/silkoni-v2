@@ -171,6 +171,22 @@
           body: JSON.stringify(orderData)
         });
 
+        // Track purchase in GA4
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'purchase', {
+            transaction_id: Date.now().toString(),
+            currency: 'UAH',
+            value: cart.totalPrice,
+            items: cart.items.map(item => ({
+              item_id: item.product.toLowerCase().replace(/ /g, '-') + '-' + item.color,
+              item_name: item.product,
+              item_variant: item.colorName,
+              price: item.price,
+              quantity: item.quantity
+            }))
+          });
+        }
+
         this.step = 'success';
 
         setTimeout(() => {
@@ -180,6 +196,23 @@
       } catch (error) {
         console.error('Order submit error:', error);
         // Still show success to user (order might have been sent)
+
+        // Track purchase in GA4
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'purchase', {
+            transaction_id: Date.now().toString(),
+            currency: 'UAH',
+            value: cart.totalPrice,
+            items: cart.items.map(item => ({
+              item_id: item.product.toLowerCase().replace(/ /g, '-') + '-' + item.color,
+              item_name: item.product,
+              item_variant: item.colorName,
+              price: item.price,
+              quantity: item.quantity
+            }))
+          });
+        }
+
         this.step = 'success';
         setTimeout(() => {
           Alpine.store('cart').clear();
@@ -511,7 +544,7 @@
 
         <button
           type="button"
-          @click="submit()"
+          @click="gtag('event', 'begin_checkout', {currency: 'UAH', value: $store.cart.totalPrice, items: $store.cart.items.map(item => ({item_id: item.product.toLowerCase().replace(/ /g, '-') + '-' + item.color, item_name: item.product, item_variant: item.colorName, price: item.price, quantity: item.quantity}))}); submit()"
           class="w-full bg-black text-white py-4 rounded-xl font-medium shadow-md hover:shadow-lg hover:bg-gray-900 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
         >
           <span x-text="form.payment === 'liqpay' ? 'Перейти до оплати' : 'Оформити замовлення'"></span>
