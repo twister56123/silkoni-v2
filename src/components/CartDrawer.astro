@@ -202,6 +202,17 @@
           });
         }
 
+        // Track purchase in Facebook Pixel
+        if (typeof fbq !== 'undefined') {
+          fbq('track', 'Purchase', {
+            content_ids: cart.items.map(item => item.product.toLowerCase().replace(/ /g, '-') + '-' + item.color),
+            content_type: 'product',
+            value: cart.totalPrice,
+            currency: 'UAH',
+            num_items: cart.totalItems
+          });
+        }
+
         this.step = 'success';
 
         setTimeout(() => {
@@ -225,6 +236,17 @@
               price: item.price,
               quantity: item.quantity
             }))
+          });
+        }
+
+        // Track purchase in Facebook Pixel
+        if (typeof fbq !== 'undefined') {
+          fbq('track', 'Purchase', {
+            content_ids: cart.items.map(item => item.product.toLowerCase().replace(/ /g, '-') + '-' + item.color),
+            content_type: 'product',
+            value: cart.totalPrice,
+            currency: 'UAH',
+            num_items: cart.totalItems
           });
         }
 
@@ -571,7 +593,7 @@
 
         <button
           type="button"
-          @click="gtag('event', 'begin_checkout', {currency: 'UAH', value: $store.cart.totalPrice, items: $store.cart.items.map(item => ({item_id: item.product.toLowerCase().replace(/ /g, '-') + '-' + item.color, item_name: item.product, item_variant: item.colorName, price: item.price, quantity: item.quantity}))}); submit()"
+          @click="gtag('event', 'begin_checkout', {currency: 'UAH', value: $store.cart.totalPrice, items: $store.cart.items.map(item => ({item_id: item.product.toLowerCase().replace(/ /g, '-') + '-' + item.color, item_name: item.product, item_variant: item.colorName, price: item.price, quantity: item.quantity}))}); fbq('track', 'InitiateCheckout', {content_ids: $store.cart.items.map(item => item.product.toLowerCase().replace(/ /g, '-') + '-' + item.color), content_type: 'product', value: $store.cart.totalPrice, currency: 'UAH', num_items: $store.cart.totalItems}); submit()"
           class="w-full bg-black text-white py-4 rounded-xl font-medium shadow-md hover:shadow-lg hover:bg-gray-900 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
         >
           <span x-text="form.payment === 'liqpay' ? 'Перейти до оплати' : 'Оформити замовлення'"></span>

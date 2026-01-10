@@ -191,7 +191,7 @@ import benefitRitual from '@/assets/benefit-ritual.jpg';
             <button
               type="button"
               class="w-full bg-black text-white py-3 rounded-md hover:bg-black/90 transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
-              @click="$store.cart.add('Шовкова наволочка', selectedColor, colors[selectedColor].name, 2190); gtag('event', 'add_to_cart', {currency: 'UAH', value: 2190, items: [{item_id: 'pillowcase-' + selectedColor, item_name: 'Шовкова наволочка', item_variant: colors[selectedColor].name, price: 2190, quantity: 1}]})"
+              @click="$store.cart.add('Шовкова наволочка', selectedColor, colors[selectedColor].name, 2190); gtag('event', 'add_to_cart', {currency: 'UAH', value: 2190, items: [{item_id: 'pillowcase-' + selectedColor, item_name: 'Шовкова наволочка', item_variant: colors[selectedColor].name, price: 2190, quantity: 1}]}); fbq('track', 'AddToCart', {content_name: 'Шовкова наволочка', content_ids: ['pillowcase-' + selectedColor], content_type: 'product', value: 2190, currency: 'UAH'})"
             >
               Додати в кошик
             </button>
@@ -266,7 +266,7 @@ import benefitRitual from '@/assets/benefit-ritual.jpg';
             <button
               type="button"
               class="w-full bg-black text-white py-3 rounded-xl shadow-md hover:shadow-lg hover:bg-gray-900 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
-              @click="$store.cart.add('Шовковий тюрбан', selectedColor, colors[selectedColor].name, 1990); gtag('event', 'add_to_cart', {currency: 'UAH', value: 1990, items: [{item_id: 'turban-' + selectedColor, item_name: 'Шовковий тюрбан', item_variant: colors[selectedColor].name, price: 1990, quantity: 1}]})"
+              @click="$store.cart.add('Шовковий тюрбан', selectedColor, colors[selectedColor].name, 1990); gtag('event', 'add_to_cart', {currency: 'UAH', value: 1990, items: [{item_id: 'turban-' + selectedColor, item_name: 'Шовковий тюрбан', item_variant: colors[selectedColor].name, price: 1990, quantity: 1}]}); fbq('track', 'AddToCart', {content_name: 'Шовковий тюрбан', content_ids: ['turban-' + selectedColor], content_type: 'product', value: 1990, currency: 'UAH'})"
             >
               Додати в кошик
             </button>
