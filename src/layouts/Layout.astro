@@ -43,15 +43,6 @@ import CartDrawer from '@/components/CartDrawer.astro';
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-415TP4FFJ2"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-415TP4FFJ2');
-    </script>
-
     <!-- Theme -->
     <meta name="theme-color" content="#000000" />
   </head>
@@ -64,6 +55,15 @@ import CartDrawer from '@/components/CartDrawer.astro';
       import Alpine from 'alpinejs';
       window.Alpine = Alpine;
       Alpine.start();
+    </script>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-415TP4FFJ2"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-415TP4FFJ2');
     </script>
   </body>
 </html>
