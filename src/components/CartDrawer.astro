@@ -146,16 +146,45 @@
       return Object.keys(this.errors).length === 0;
     },
 
-    submit() {
+    async submit() {
       if (!this.validate()) return;
 
-      // For now just show success (Telegram + LiqPay integration later)
-      this.step = 'success';
+      try {
+        const cart = Alpine.store('cart');
 
-      // Clear cart after successful order
-      setTimeout(() => {
-        Alpine.store('cart').clear();
-      }, 100);
+        const orderData = {
+          order: {
+            name: this.form.name,
+            phone: this.form.phone,
+            city: this.form.city,
+            warehouse: this.form.warehouse,
+            payment: this.form.payment,
+            comment: this.form.comment,
+            items: cart.items,
+            totalPrice: cart.totalPrice
+          }
+        };
+
+        await fetch('https://silkoni-api.bozhko-andrej.workers.dev/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(orderData)
+        });
+
+        this.step = 'success';
+
+        setTimeout(() => {
+          Alpine.store('cart').clear();
+        }, 100);
+
+      } catch (error) {
+        console.error('Order submit error:', error);
+        // Still show success to user (order might have been sent)
+        this.step = 'success';
+        setTimeout(() => {
+          Alpine.store('cart').clear();
+        }, 100);
+      }
     },
 
     reset() {
