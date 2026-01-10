@@ -266,7 +266,7 @@ import benefitRitual from '@/assets/benefit-ritual.jpg';
             <button
               type="button"
               class="w-full bg-black text-white py-3 rounded-xl shadow-md hover:shadow-lg hover:bg-gray-900 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
-              @click="$store.cart.add('Шовковий тюрбан', selectedColor, colors[selectedColor].name, 1990); gtag('event', 'add_to_cart', {currency: 'UAH', value: 1990, items: [{item_id: 'turban-' + selectedColor, item_name: 'Шовковий тюрбан', item_variant: colors[selectedColor].name, price: 1990, quantity: 1}]}); fbq('track', 'AddToCart', {content_name: 'Шовковий тюрбан', content_ids: ['turban-' + selectedColor], content_type: 'product', value: 1990, currency: 'UAH'})"
+@click="$store.cart.add('Шовковий тюрбан', selectedColor, colors[selectedColor].name, 1990); gtag('event', 'add_to_cart', {currency: 'UAH', value: 1990, items: [{item_id: 'turban-' + selectedColor, item_name: 'Шовковий тюрбан', item_variant: colors[selectedColor].name, price: 1990, quantity: 1}]}); zaraz.ecommerce('Add to Cart', {products: [{product_id: 'turban-' + selectedColor, name: 'Шовковий тюрбан', variant: colors[selectedColor].name, price: 1990, quantity: 1}]})"
             >
               Додати в кошик
             </button>
