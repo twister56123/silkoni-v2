@@ -93,6 +93,12 @@ import benefitRitual from '@/assets/benefit-ritual.jpg';
                 sage: { name: 'Травʼяний', src: '${pillowcaseSage.src}' },
                 blue: { name: 'Блакитний', src: '${pillowcaseBlue.src}' },
                 ivory: { name: 'Айворі', src: '${pillowcaseIvory.src}' }
+              },
+              slugs: {
+                pink: 'rozheva',
+                sage: 'traviana',
+                blue: 'blakytna',
+                ivory: 'aivori'
               }
             }`}
           >
@@ -150,6 +156,15 @@ import benefitRitual from '@/assets/benefit-ritual.jpg';
               </div>
             </div>
 
+            <!-- Details Button -->
+            <a
+              :href="'/navolochky/' + slugs[selectedColor] + '/'"
+              class="group flex items-center justify-center gap-3 w-full px-6 py-3 mb-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-700 hover:bg-white hover:border-gray-300 hover:shadow-md transition-all duration-300"
+            >
+              <span>Детальніше</span>
+              <span class="group-hover:translate-x-1 transition-transform duration-300" aria-hidden="true">→</span>
+            </a>
+
             <button
               type="button"
               class="btn-add-to-cart w-full text-white py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
@@ -180,6 +195,12 @@ import benefitRitual from '@/assets/benefit-ritual.jpg';
                 sage: { name: 'Травʼяний', src: '${turbanSage.src}' },
                 blue: { name: 'Блакитний', src: '${turbanBlue.src}' },
                 ivory: { name: 'Айворі', src: '${turbanIvory.src}' }
+              },
+              slugs: {
+                pink: 'rozhevyi',
+                sage: 'travianyi',
+                blue: 'blakytnyi',
+                ivory: 'aivori'
               }
             }`}
           >
@@ -235,6 +256,15 @@ import benefitRitual from '@/assets/benefit-ritual.jpg';
                 ></button>
               </div>
             </div>
+
+            <!-- Details Button -->
+            <a
+              :href="'/turbany/' + slugs[selectedColor] + '/'"
+              class="group flex items-center justify-center gap-3 w-full px-6 py-3 mb-3 bg-gray-50 border border-gray-200 rounded-xl text-gray-700 hover:bg-white hover:border-gray-300 hover:shadow-md transition-all duration-300"
+            >
+              <span>Детальніше</span>
+              <span class="group-hover:translate-x-1 transition-transform duration-300" aria-hidden="true">→</span>
+            </a>
 
             <button
               type="button"
