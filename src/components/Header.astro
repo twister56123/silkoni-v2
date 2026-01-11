@@ -1,21 +1,27 @@
 ---
-// Header component with centered logo, navigation left, cart right
-// Mobile: burger menu, centered logo, cart
+// Header component with premium animations
+// Desktop: centered logo, underline hover, shadow on scroll
+// Mobile: slide-in drawer from left
 ---
 
-<header class="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100">
+<header 
+  class="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 transition-shadow duration-300"
+  x-data="{ scrolled: false, mobileMenuOpen: false }"
+  x-init="window.addEventListener('scroll', () => { scrolled = window.scrollY > 10 })"
+  :class="{ 'shadow-lg border-transparent': scrolled }"
+>
   <div class="max-w-7xl mx-auto px-4 py-4">
     
     <!-- Desktop Header -->
     <div class="hidden md:flex items-center justify-between">
       <!-- Left: Navigation -->
-      <nav class="flex items-center gap-6">
-        <a href="/navolochky/" class="text-gray-700 hover:text-black transition-colors">Наволочки</a>
-        <a href="/turbany/" class="text-gray-700 hover:text-black transition-colors">Тюрбани</a>
+      <nav class="flex items-center gap-8">
+        <a href="/navolochky/" class="nav-link">Наволочки</a>
+        <a href="/turbany/" class="nav-link">Тюрбани</a>
       </nav>
       
       <!-- Center: Logo -->
-      <a href="/" class="text-2xl tracking-wider absolute left-1/2 -translate-x-1/2" style="font-family: Georgia, 'Times New Roman', serif;" aria-label="SILKONI - На головну">
+      <a href="/" class="text-2xl tracking-wider absolute left-1/2 -translate-x-1/2 hover:opacity-70 transition-opacity duration-300" style="font-family: Georgia, 'Times New Roman', serif;" aria-label="SILKONI - На головну">
         SÍLKONI
       </a>
       
@@ -24,7 +30,6 @@
         type="button"
         class="p-2 hover:scale-110 transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded-lg relative"
         aria-label="Відкрити кошик"
-        x-data
         @click="$dispatch('open-cart')"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-black">
@@ -43,13 +48,13 @@
     </div>
 
     <!-- Mobile Header -->
-    <div class="flex md:hidden items-center justify-between" x-data="{ mobileMenuOpen: false }">
+    <div class="flex md:hidden items-center justify-between">
       <!-- Left: Burger -->
       <button
         type="button"
         class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
         aria-label="Відкрити меню"
-        @click="mobileMenuOpen = !mobileMenuOpen"
+        @click="mobileMenuOpen = true"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <line x1="3" y1="6" x2="21" y2="6"/>
@@ -83,25 +88,103 @@
           class="absolute -top-1 -right-1 bg-black text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
         ></span>
       </button>
-
-      <!-- Mobile Menu Dropdown -->
-      <div
-        x-show="mobileMenuOpen"
-        x-transition:enter="transition ease-out duration-200"
-        x-transition:enter-start="opacity-0 -translate-y-2"
-        x-transition:enter-end="opacity-100 translate-y-0"
-        x-transition:leave="transition ease-in duration-150"
-        x-transition:leave-start="opacity-100 translate-y-0"
-        x-transition:leave-end="opacity-0 -translate-y-2"
-        @click.outside="mobileMenuOpen = false"
-        class="absolute top-full left-0 right-0 bg-white border-b border-gray-200 shadow-lg"
-      >
-        <nav class="flex flex-col py-4">
-          <a href="/navolochky/" class="px-6 py-3 text-gray-700 hover:bg-gray-50 hover:text-black transition-colors">Наволочки</a>
-          <a href="/turbany/" class="px-6 py-3 text-gray-700 hover:bg-gray-50 hover:text-black transition-colors">Тюрбани</a>
-        </nav>
-      </div>
     </div>
 
   </div>
+
+  <!-- Mobile Drawer Overlay -->
+  <div
+    x-show="mobileMenuOpen"
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0"
+    x-transition:enter-end="opacity-100"
+    x-transition:leave="transition ease-in duration-300"
+    x-transition:leave-start="opacity-100"
+    x-transition:leave-end="opacity-0"
+    class="fixed inset-0 bg-black/50 z-50 md:hidden"
+    @click="mobileMenuOpen = false"
+  ></div>
+
+  <!-- Mobile Drawer Panel -->
+  <div
+    x-show="mobileMenuOpen"
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="-translate-x-full"
+    x-transition:enter-end="translate-x-0"
+    x-transition:leave="transition ease-in duration-300"
+    x-transition:leave-start="translate-x-0"
+    x-transition:leave-end="-translate-x-full"
+    class="fixed top-0 left-0 bottom-0 w-72 bg-white z-50 shadow-2xl md:hidden"
+    @click.outside="mobileMenuOpen = false"
+  >
+    <!-- Drawer Header -->
+    <div class="flex items-center justify-between p-4 border-b border-gray-100">
+      <a href="/" class="text-xl tracking-wider" style="font-family: Georgia, 'Times New Roman', serif;">
+        SÍLKONI
+      </a>
+      <button
+        type="button"
+        class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+        aria-label="Закрити меню"
+        @click="mobileMenuOpen = false"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Drawer Navigation -->
+    <nav class="p-4">
+      <a 
+        href="/navolochky/" 
+        class="block py-3 px-4 text-lg text-gray-700 hover:text-black hover:bg-gray-50 rounded-lg transition-colors"
+      >
+        Наволочки
+      </a>
+      <a 
+        href="/turbany/" 
+        class="block py-3 px-4 text-lg text-gray-700 hover:text-black hover:bg-gray-50 rounded-lg transition-colors"
+      >
+        Тюрбани
+      </a>
+    </nav>
+
+    <!-- Drawer Footer -->
+    <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-100">
+      <p class="text-sm text-gray-500 mb-2">Контакти:</p>
+      <a href="tel:0633710636" class="block text-gray-700 hover:text-black transition-colors">063-371-06-36</a>
+      <a href="tel:0687363122" class="block text-gray-700 hover:text-black transition-colors">068-736-31-22</a>
+    </div>
+  </div>
+
 </header>
+
+<style>
+  /* Premium underline hover effect for desktop nav */
+  .nav-link {
+    position: relative;
+    color: #374151;
+    transition: color 0.3s ease;
+  }
+
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 1px;
+    background-color: #000;
+    transition: width 0.3s ease;
+  }
+
+  .nav-link:hover {
+    color: #000;
+  }
+
+  .nav-link:hover::after {
+    width: 100%;
+  }
+</style>
