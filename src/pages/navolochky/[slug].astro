@@ -95,9 +95,25 @@ const mainImage = images[mainImagePath] as { default: ImageMetadata };
           })}
         </div>
 
-        <!-- Thumbnails -->
+        <!-- Dots indicator (mobile) -->
         {product.data.images.length > 1 && (
-          <div class="flex gap-2">
+          <div class="flex justify-center gap-2 md:hidden">
+            {product.data.images.map((_: string, index: number) => (
+              <button
+                type="button"
+                @click={`activeImage = ${index}`}
+                :class={`activeImage === ${index} ? 'bg-black w-6' : 'bg-gray-300'`}
+                class="h-2 rounded-full transition-all duration-300"
+                :style={`width: activeImage === ${index} ? '24px' : '8px'`}
+                aria-label={`Фото ${index + 1}`}
+              />
+            ))}
+          </div>
+        )}
+
+        <!-- Thumbnails (desktop) -->
+        {product.data.images.length > 1 && (
+          <div class="hidden md:flex gap-2">
             {product.data.images.map((img: string, index: number) => {
               const imgPath = `/src/assets/products/${img}`;
               const imgSrc = (images[imgPath] as { default: ImageMetadata })?.default?.src;
