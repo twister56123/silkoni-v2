@@ -16,6 +16,9 @@ currency: "UAH"
 
 images:
   - "pillowcase-ivory-1.jpg"
+  - "pillowcase-pink.jpg"
+  - "pillowcase-blue.jpg"
+  - "pillowcase-sage.jpg"
 
 shortDescription: "Преміальна шовкова наволочка кольору айворі для здорового сну та краси волосся"
 metaDescription: "Шовкова наволочка Айворі 2190₴. 100% натуральний шовк 22 momme. Зменшує тертя волосся, гіпоалергенна. Доставка по Україні."
