@@ -4,97 +4,98 @@
 // Mobile: slide-in drawer from left
 ---
 
-<!-- Wrapper for Alpine scope -->
-<div x-data="{ scrolled: false, mobileMenuOpen: false }" x-init="window.addEventListener('scroll', () => { scrolled = window.scrollY > 10 })">
-
-  <header 
-    class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-100 transition-shadow duration-300"
-    :class="{ 'shadow-lg border-transparent': scrolled }"
-  >
-    <div class="max-w-7xl mx-auto px-4 py-4">
+<header 
+  class="sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-gray-100 transition-shadow duration-300"
+  x-data="{ scrolled: false }"
+  x-init="window.addEventListener('scroll', () => { scrolled = window.scrollY > 10 })"
+  :class="{ 'shadow-lg border-transparent': scrolled }"
+>
+  <div class="max-w-7xl mx-auto px-4 py-4">
+    
+    <!-- Desktop Header -->
+    <div class="hidden md:flex items-center justify-between">
+      <!-- Left: Navigation -->
+      <nav class="flex items-center gap-8">
+        <a href="/navolochky/" class="nav-link">Наволочки</a>
+        <a href="/turbany/" class="nav-link">Тюрбани</a>
+      </nav>
       
-      <!-- Desktop Header -->
-      <div class="hidden md:flex items-center justify-between">
-        <!-- Left: Navigation -->
-        <nav class="flex items-center gap-8">
-          <a href="/navolochky/" class="nav-link">Наволочки</a>
-          <a href="/turbany/" class="nav-link">Тюрбани</a>
-        </nav>
-        
-        <!-- Center: Logo -->
-        <a href="/" class="text-2xl tracking-wider absolute left-1/2 -translate-x-1/2 hover:opacity-70 transition-opacity duration-300" style="font-family: Georgia, 'Times New Roman', serif;" aria-label="SILKONI - На головну">
-          SÍLKONI
-        </a>
-        
-        <!-- Right: Cart -->
-        <button
-          type="button"
-          class="p-2 hover:scale-110 transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded-lg relative"
-          aria-label="Відкрити кошик"
-          @click="$dispatch('open-cart')"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-black">
-            <circle cx="8" cy="21" r="1"/>
-            <circle cx="19" cy="21" r="1"/>
-            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
-          </svg>
-          <span
-            x-show="$store.cart.totalItems > 0"
-            x-text="$store.cart.totalItems"
-            x-transition
-            class="absolute -top-1 -right-1 bg-black text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
-          ></span>
-        </button>
-      </div>
-
-      <!-- Mobile Header -->
-      <div class="flex md:hidden items-center justify-between">
-        <!-- Left: Burger -->
-        <button
-          type="button"
-          class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-          aria-label="Відкрити меню"
-          @click="mobileMenuOpen = true"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="3" y1="6" x2="21" y2="6"/>
-            <line x1="3" y1="12" x2="21" y2="12"/>
-            <line x1="3" y1="18" x2="21" y2="18"/>
-          </svg>
-        </button>
-
-        <!-- Center: Logo -->
-        <a href="/" class="text-xl tracking-wider" style="font-family: Georgia, 'Times New Roman', serif;" aria-label="SILKONI - На головну">
-          SÍLKONI
-        </a>
-
-        <!-- Right: Cart -->
-        <button
-          type="button"
-          class="p-2 hover:scale-110 transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded-lg relative"
-          aria-label="Відкрити кошик"
-          @click="$dispatch('open-cart')"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-black">
-            <circle cx="8" cy="21" r="1"/>
-            <circle cx="19" cy="21" r="1"/>
-            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
-          </svg>
-          <span
-            x-show="$store.cart.totalItems > 0"
-            x-text="$store.cart.totalItems"
-            x-transition
-            class="absolute -top-1 -right-1 bg-black text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
-          ></span>
-        </button>
-      </div>
-
+      <!-- Center: Logo -->
+      <a href="/" class="text-2xl tracking-wider absolute left-1/2 -translate-x-1/2 hover:opacity-70 transition-opacity duration-300" style="font-family: Georgia, 'Times New Roman', serif;" aria-label="SILKONI - На головну">
+        SÍLKONI
+      </a>
+      
+      <!-- Right: Cart -->
+      <button
+        type="button"
+        class="p-2 hover:scale-110 transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded-lg relative"
+        aria-label="Відкрити кошик"
+        @click="$dispatch('open-cart')"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-black">
+          <circle cx="8" cy="21" r="1"/>
+          <circle cx="19" cy="21" r="1"/>
+          <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+        </svg>
+        <span
+          x-show="$store.cart.totalItems > 0"
+          x-text="$store.cart.totalItems"
+          x-transition
+          class="absolute -top-1 -right-1 bg-black text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
+        ></span>
+      </button>
     </div>
-  </header>
 
-  <!-- Mobile Drawer Overlay (outside header for proper z-index) -->
+    <!-- Mobile Header -->
+    <div class="flex md:hidden items-center justify-between">
+      <!-- Left: Burger -->
+      <button
+        type="button"
+        class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+        aria-label="Відкрити меню"
+        @click="$store.mobileMenu.open = true"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+
+      <!-- Center: Logo -->
+      <a href="/" class="text-xl tracking-wider" style="font-family: Georgia, 'Times New Roman', serif;" aria-label="SILKONI - На головну">
+        SÍLKONI
+      </a>
+
+      <!-- Right: Cart -->
+      <button
+        type="button"
+        class="p-2 hover:scale-110 transition-transform duration-200 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 rounded-lg relative"
+        aria-label="Відкрити кошик"
+        @click="$dispatch('open-cart')"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-black">
+          <circle cx="8" cy="21" r="1"/>
+          <circle cx="19" cy="21" r="1"/>
+          <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+        </svg>
+        <span
+          x-show="$store.cart.totalItems > 0"
+          x-text="$store.cart.totalItems"
+          x-transition
+          class="absolute -top-1 -right-1 bg-black text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center"
+        ></span>
+      </button>
+    </div>
+
+  </div>
+</header>
+
+<!-- Mobile Drawer (uses Alpine store, outside header for z-index) -->
+<div x-data>
+  <!-- Overlay -->
   <div
-    x-show="mobileMenuOpen"
+    x-show="$store.mobileMenu.open"
     x-transition:enter="transition ease-out duration-300"
     x-transition:enter-start="opacity-0"
     x-transition:enter-end="opacity-100"
@@ -102,12 +103,12 @@
     x-transition:leave-start="opacity-100"
     x-transition:leave-end="opacity-0"
     class="fixed inset-0 bg-black/50 z-[60] md:hidden"
-    @click="mobileMenuOpen = false"
+    @click="$store.mobileMenu.open = false"
   ></div>
 
-  <!-- Mobile Drawer Panel (outside header for proper z-index) -->
+  <!-- Drawer Panel -->
   <div
-    x-show="mobileMenuOpen"
+    x-show="$store.mobileMenu.open"
     x-transition:enter="transition ease-out duration-300"
     x-transition:enter-start="-translate-x-full"
     x-transition:enter-end="translate-x-0"
@@ -125,7 +126,7 @@
         type="button"
         class="p-2 hover:bg-gray-100 rounded-lg transition-colors"
         aria-label="Закрити меню"
-        @click="mobileMenuOpen = false"
+        @click="$store.mobileMenu.open = false"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <line x1="18" y1="6" x2="6" y2="18"/>
@@ -157,11 +158,9 @@
       <a href="tel:0687363122" class="block text-gray-700 hover:text-black transition-colors">068-736-31-22</a>
     </div>
   </div>
-
 </div>
 
 <style>
-  /* Premium underline hover effect for desktop nav */
   .nav-link {
     position: relative;
     color: #374151;

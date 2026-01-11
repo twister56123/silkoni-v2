@@ -1,9 +1,14 @@
 ---
 // Cart Store - Alpine.js global store for cart functionality
 ---
-
 <script>
   document.addEventListener('alpine:init', () => {
+    // Mobile Menu Store
+    Alpine.store('mobileMenu', {
+      open: false
+    });
+
+    // Cart Store
     Alpine.store('cart', {
       items: [],
       
