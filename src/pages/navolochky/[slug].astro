@@ -3,11 +3,12 @@ import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 
 export async function getStaticPaths() {
-  const allProducts = await getCollection('products');
-  const products = allProducts.filter(({ data }) => data.category === 'navolochky' && data.active);
+  const products = await getCollection('products', ({ data }) => {
+    return data.category === 'navolochky' && data.active;
+  });
 
   return products.map((product) => ({
-    params: { slug: product.id.replace('.md', '').split('-').pop() || 'default' },
+    params: { slug: product.data.slug || 'default' },
     props: { product },
   }));
 }
@@ -16,10 +17,10 @@ const { product } = Astro.props;
 const { Content } = await product.render();
 
 // Get all colors for this product type (for color switcher)
-const allProducts = await getCollection('products', ({ data }) => {
+const colorVariants = await getCollection('products', ({ data }) => {
   return data.category === 'navolochky' && data.active;
 });
-const colorVariants = allProducts.sort((a, b) => a.data.order - b.data.order);
+colorVariants.sort((a, b) => a.data.order - b.data.order);
 
 // Dynamic image import
 const images = import.meta.glob('/src/assets/products/*.jpg', { eager: true });
