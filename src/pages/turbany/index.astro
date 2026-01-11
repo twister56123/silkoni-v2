@@ -1,0 +1,119 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+
+const products = await getCollection('products', ({ data }) => {
+  return data.category === 'turbany' && data.active;
+});
+products.sort((a, b) => a.data.order - b.data.order);
+
+// Dynamic image import
+const images = import.meta.glob('/src/assets/products/*.jpg', { eager: true });
+
+function getImage(imageName: string) {
+  const path = `/src/assets/products/${imageName}`;
+  return (images[path] as { default: ImageMetadata })?.default?.src || '';
+}
+---
+
+<Layout
+  title="Шовкові тюрбани для волосся | SILKONI"
+  description="Шовкові тюрбани SILKONI від 1990₴. 100% натуральний шовк для делікатного сушіння волосся. 4 кольори. Доставка по Україні."
+>
+  <main class="max-w-7xl mx-auto px-4 py-8">
+
+    <!-- Breadcrumbs -->
+    <nav class="mb-6" aria-label="Breadcrumb">
+      <ol class="flex items-center gap-2 text-sm text-gray-600">
+        <li><a href="/" class="hover:text-black">Головна</a></li>
+        <li class="text-gray-400">/</li>
+        <li class="text-black font-medium">Тюрбани</li>
+      </ol>
+    </nav>
+
+    <!-- Hero -->
+    <div class="mb-12 text-center">
+      <h1 class="text-4xl font-bold mb-4">Шовкові тюрбани</h1>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+        Делікатне сушіння волосся без пошкоджень. Натуральний шовк дбає про ваше волосся
+      </p>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-16">
+      {products.map((product) => {
+        const slug = product.id.replace('.md', '').replace('turban-', '');
+        return (
+          <a
+            href={`/turbany/${slug}/`}
+            class="group block border border-gray-200 rounded-xl overflow-hidden bg-white hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+          >
+            <div class="aspect-square overflow-hidden bg-gray-100">
+              <img
+                src={getImage(product.data.images[0])}
+                alt={product.data.title}
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                loading="lazy"
+              />
+            </div>
+            <div class="p-4">
+              <h2 class="font-medium mb-1">{product.data.colorName}</h2>
+              <div class="flex items-center gap-2">
+                {product.data.oldPrice && (
+                  <span class="text-sm text-gray-400 line-through">{product.data.oldPrice} ₴</span>
+                )}
+                <span class="font-bold">{product.data.price} ₴</span>
+              </div>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+
+    <!-- SEO Content -->
+    <section class="prose prose-gray max-w-3xl mx-auto">
+      <h2>Шовковий тюрбан — найделікатніший спосіб сушіння волосся</h2>
+
+      <p>
+        Забудьте про звичайні махрові рушники, які витягують та ламають волосся.
+        Шовковий тюрбан SILKONI — це революція у догляді за волоссям після миття.
+      </p>
+
+      <h3>Чому шовк краще за бавовну?</h3>
+      <p>
+        Звичайний рушник має шорстку текстуру, яка чіпляється за кутикулу волосся та пошкоджує її.
+        Шовк має ідеально гладку поверхню — волосся ковзає, а не рветься.
+        Результат: менше ламкості, більше блиску.
+      </p>
+
+      <h3>Для кого підходить?</h3>
+      <ul>
+        <li><strong>Кучеряве волосся:</strong> зберігає локони без пухнастості</li>
+        <li><strong>Фарбоване волосся:</strong> допомагає зберегти колір довше</li>
+        <li><strong>Пошкоджене волосся:</strong> мінімізує додаткове пошкодження</li>
+        <li><strong>Довге волосся:</strong> легкий, не тисне на голову</li>
+      </ul>
+
+      <h3>Як користуватися?</h3>
+      <ol>
+        <li>Після миття злегка віджміть волосся руками</li>
+        <li>Нахиліть голову вперед</li>
+        <li>Покладіть тюрбан на голову</li>
+        <li>Закрутіть кінці та закріпіть петлею</li>
+        <li>Залиште на 15-20 хвилин</li>
+      </ol>
+
+      <h3>Характеристики</h3>
+      <ul>
+        <li><strong>Матеріал:</strong> 100% натуральний шовк</li>
+        <li><strong>Розмір:</strong> універсальний</li>
+        <li><strong>Застібка:</strong> еластична петля для надійної фіксації</li>
+      </ul>
+
+      <p>
+        Перетворіть рутинне сушіння волосся на приємний ритуал догляду за собою!
+      </p>
+    </section>
+
+  </main>
+</Layout>

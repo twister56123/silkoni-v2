@@ -1,0 +1,110 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+
+const products = await getCollection('products', ({ data }) => {
+  return data.category === 'navolochky' && data.active;
+});
+products.sort((a, b) => a.data.order - b.data.order);
+
+// Dynamic image import
+const images = import.meta.glob('/src/assets/products/*.jpg', { eager: true });
+
+function getImage(imageName: string) {
+  const path = `/src/assets/products/${imageName}`;
+  return (images[path] as { default: ImageMetadata })?.default?.src || '';
+}
+---
+
+<Layout
+  title="Шовкові наволочки преміум якості | SILKONI"
+  description="Шовкові наволочки SILKONI від 2190₴. 100% натуральний шовк 22 momme. 4 кольори: айворі, рожева, блакитна, травʼяна. Доставка по Україні."
+>
+  <main class="max-w-7xl mx-auto px-4 py-8">
+
+    <!-- Breadcrumbs -->
+    <nav class="mb-6" aria-label="Breadcrumb">
+      <ol class="flex items-center gap-2 text-sm text-gray-600">
+        <li><a href="/" class="hover:text-black">Головна</a></li>
+        <li class="text-gray-400">/</li>
+        <li class="text-black font-medium">Наволочки</li>
+      </ol>
+    </nav>
+
+    <!-- Hero -->
+    <div class="mb-12 text-center">
+      <h1 class="text-4xl font-bold mb-4">Шовкові наволочки</h1>
+      <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+        Преміальні наволочки з натурального шовку для здорового сну, сяючої шкіри та розкішного волосся
+      </p>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-16">
+      {products.map((product) => {
+        const slug = product.id.replace('.md', '').replace('navolochka-', '');
+        return (
+          <a
+            href={`/navolochky/${slug}/`}
+            class="group block border border-gray-200 rounded-xl overflow-hidden bg-white hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+          >
+            <div class="aspect-square overflow-hidden bg-gray-100">
+              <img
+                src={getImage(product.data.images[0])}
+                alt={product.data.title}
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                loading="lazy"
+              />
+            </div>
+            <div class="p-4">
+              <h2 class="font-medium mb-1">{product.data.colorName}</h2>
+              <div class="flex items-center gap-2">
+                {product.data.oldPrice && (
+                  <span class="text-sm text-gray-400 line-through">{product.data.oldPrice} ₴</span>
+                )}
+                <span class="font-bold">{product.data.price} ₴</span>
+              </div>
+            </div>
+          </a>
+        );
+      })}
+    </div>
+
+    <!-- SEO Content -->
+    <section class="prose prose-gray max-w-3xl mx-auto">
+      <h2>Чому варто обрати шовкову наволочку SILKONI?</h2>
+
+      <p>
+        Шовкова наволочка — це не просто аксесуар для сну, а щоденний ритуал турботи про себе.
+        Натуральний шовк має унікальні властивості, які неможливо відтворити жодним синтетичним матеріалом.
+      </p>
+
+      <h3>Переваги для волосся</h3>
+      <p>
+        На відміну від бавовни, шовк має гладку поверхню, яка зменшує тертя на 43%.
+        Це означає менше ламкості, посічених кінчиків та сплутаного волосся вранці.
+        Особливо корисно для кучерявого, фарбованого та пошкодженого волосся.
+      </p>
+
+      <h3>Переваги для шкіри</h3>
+      <p>
+        Шовк не вбирає вологу та нічні креми з вашої шкіри, на відміну від бавовняних наволочок.
+        Гіпоалергенний матеріал підходить навіть для найчутливішої шкіри.
+        А відсутність заломів на обличчі вранці — приємний бонус.
+      </p>
+
+      <h3>Характеристики наших наволочок</h3>
+      <ul>
+        <li><strong>Матеріал:</strong> 100% натуральний шовк Mulberry</li>
+        <li><strong>Щільність:</strong> 22 momme — преміальна якість</li>
+        <li><strong>Розмір:</strong> 50×70 см — підходить для стандартних подушок</li>
+        <li><strong>Застібка:</strong> конверт — надійна фіксація без блискавок</li>
+      </ul>
+
+      <p>
+        Оберіть свій улюблений колір і відчуйте різницю вже з першої ночі!
+      </p>
+    </section>
+
+  </main>
+</Layout>
