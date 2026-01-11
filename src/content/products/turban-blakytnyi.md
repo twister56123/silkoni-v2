@@ -16,6 +16,9 @@ currency: "UAH"
 
 images:
   - "turban-blue.jpg"
+  - "turban-ivory.jpg"
+  - "turban-pink.jpg"
+  - "turban-sage.jpg"
 
 shortDescription: "Свіжий блакитний шовковий тюрбан для ніжного догляду за волоссям"
 metaDescription: "Шовковий тюрбан Блакитний 1990₴. 100% натуральний шовк. Зменшує ламкість волосся, швидко вбирає вологу. Доставка по Україні."

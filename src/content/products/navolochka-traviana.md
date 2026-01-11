@@ -16,6 +16,9 @@ currency: "UAH"
 
 images:
   - "pillowcase-sage.jpg"
+  - "pillowcase-ivory-1.jpg"
+  - "pillowcase-pink.jpg"
+  - "pillowcase-blue.jpg"
 
 shortDescription: "Природний травʼяний відтінок шовкової наволочки для гармонії та спокою"
 metaDescription: "Шовкова наволочка Травʼяна 2190₴. 100% натуральний шовк 22 momme. Зменшує тертя волосся, гіпоалергенна. Доставка по Україні."

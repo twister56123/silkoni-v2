@@ -16,6 +16,9 @@ currency: "UAH"
 
 images:
   - "turban-pink.jpg"
+  - "turban-ivory.jpg"
+  - "turban-blue.jpg"
+  - "turban-sage.jpg"
 
 shortDescription: "Ніжний рожевий шовковий тюрбан для дбайливого сушіння волосся"
 metaDescription: "Шовковий тюрбан Рожевий 1990₴. 100% натуральний шовк. Зменшує ламкість волосся, швидко вбирає вологу. Доставка по Україні."

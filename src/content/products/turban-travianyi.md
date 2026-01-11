@@ -16,6 +16,9 @@ currency: "UAH"
 
 images:
   - "turban-sage.jpg"
+  - "turban-ivory.jpg"
+  - "turban-pink.jpg"
+  - "turban-blue.jpg"
 
 shortDescription: "Природний травʼяний шовковий тюрбан для еко-свідомих красунь"
 metaDescription: "Шовковий тюрбан Травʼяний 1990₴. 100% натуральний шовк. Зменшує ламкість волосся, швидко вбирає вологу. Доставка по Україні."

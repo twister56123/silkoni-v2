@@ -16,6 +16,9 @@ currency: "UAH"
 
 images:
   - "pillowcase-blue.jpg"
+  - "pillowcase-ivory-1.jpg"
+  - "pillowcase-pink.jpg"
+  - "pillowcase-sage.jpg"
 
 shortDescription: "Заспокійлива блакитна шовкова наволочка для глибокого здорового сну"
 metaDescription: "Шовкова наволочка Блакитна 2190₴. 100% натуральний шовк 22 momme. Зменшує тертя волосся, гіпоалергенна. Доставка по Україні."

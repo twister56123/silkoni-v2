@@ -16,6 +16,9 @@ currency: "UAH"
 
 images:
   - "pillowcase-pink.jpg"
+  - "pillowcase-ivory-1.jpg"
+  - "pillowcase-blue.jpg"
+  - "pillowcase-sage.jpg"
 
 shortDescription: "Ніжна рожева шовкова наволочка для здорового сну та сяючої шкіри"
 metaDescription: "Шовкова наволочка Рожева 2190₴. 100% натуральний шовк 22 momme. Зменшує тертя волосся, гіпоалергенна. Доставка по Україні."

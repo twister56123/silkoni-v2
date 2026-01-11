@@ -16,6 +16,9 @@ currency: "UAH"
 
 images:
   - "turban-ivory.jpg"
+  - "turban-pink.jpg"
+  - "turban-blue.jpg"
+  - "turban-sage.jpg"
 
 shortDescription: "Елегантний шовковий тюрбан кольору айворі для делікатного сушіння волосся"
 metaDescription: "Шовковий тюрбан Айворі 1990₴. 100% натуральний шовк. Зменшує ламкість волосся, швидко вбирає вологу. Доставка по Україні."
