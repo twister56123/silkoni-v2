@@ -84,7 +84,7 @@ const mainImage = images[mainImagePath] as { default: ImageMetadata };
         <!-- Price -->
         <div class="mb-6">
           {product.data.oldPrice && (
-            <span class="text-xl text-gray-400 line-through mr-3">{product.data.oldPrice} ₴</span>
+            <span class="text-xl text-gray-500 line-through mr-3">{product.data.oldPrice} ₴</span>
           )}
           <span class="text-3xl font-bold">{product.data.price} ₴</span>
         </div>
@@ -120,7 +120,7 @@ const mainImage = images[mainImagePath] as { default: ImageMetadata };
         <!-- Add to Cart Button -->
         <button
           type="button"
-          class="btn-add-to-cart w-full text-white py-4 rounded-xl text-lg font-medium focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+          class="btn-add-to-cart w-full text-white py-4 rounded-xl text-lg font-medium mb-6 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
           x-data="{ added: false }"
           @click={`
             if (!added) {
