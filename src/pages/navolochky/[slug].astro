@@ -51,28 +51,13 @@ const mainImage = images[mainImagePath] as { default: ImageMetadata };
       <!-- Image Gallery -->
       <div
         class="space-y-4"
-        x-data="{
-          activeImage: 0,
-          touchStartX: 0,
-          touchEndX: 0,
-          totalImages: 0,
-          handleSwipe() {
-            const diff = this.touchStartX - this.touchEndX;
-            if (Math.abs(diff) > 50) {
-              if (diff > 0 && this.activeImage < this.totalImages - 1) {
-                this.activeImage++;
-              } else if (diff < 0 && this.activeImage > 0) {
-                this.activeImage--;
-              }
-            }
-          }
-        }"
+        x-data="{ activeImage: 0, touchStartX: 0, touchEndX: 0, totalImages: 0 }"
         x-init="totalImages = document.querySelectorAll('[data-gallery-image]').length"
       >
         <div
           class="aspect-square rounded-2xl overflow-hidden bg-gray-100 cursor-grab active:cursor-grabbing"
           @touchstart="touchStartX = $event.changedTouches[0].screenX"
-          @touchend="touchEndX = $event.changedTouches[0].screenX; handleSwipe()"
+          @touchend="touchEndX = $event.changedTouches[0].screenX; if (Math.abs(touchStartX - touchEndX) > 50) { if (touchStartX - touchEndX > 0 && activeImage < totalImages - 1) { activeImage++ } else if (touchStartX - touchEndX < 0 && activeImage > 0) { activeImage-- } }"
         >
           {product.data.images.map((img: string, index: number) => {
             const imgPath = `/src/assets/products/${img}`;
