@@ -1,0 +1,177 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const allProducts = await getCollection('products');
+  const products = allProducts.filter(({ data }) => data.category === 'turbany' && data.active);
+
+  return products.map((product) => ({
+    params: { slug: product.id.replace('.md', '').split('-').pop() || 'default' },
+    props: { product },
+  }));
+}
+
+const { product } = Astro.props;
+const { Content } = await product.render();
+
+// Get all colors for this product type (for color switcher)
+const allProducts = await getCollection('products', ({ data }) => {
+  return data.category === 'turbany' && data.active;
+});
+const colorVariants = allProducts.sort((a, b) => a.data.order - b.data.order);
+
+// Dynamic image import
+const images = import.meta.glob('/src/assets/products/*.jpg', { eager: true });
+const mainImagePath = `/src/assets/products/${product.data.images[0]}`;
+const mainImage = images[mainImagePath] as { default: ImageMetadata };
+---
+
+<Layout title={`${product.data.title} | SILKONI`} description={product.data.metaDescription}>
+  
+  <!-- Breadcrumbs -->
+  <nav class="max-w-7xl mx-auto px-4 py-4" aria-label="Breadcrumb">
+    <ol class="flex items-center gap-2 text-sm text-gray-600">
+      <li><a href="/" class="hover:text-black">Головна</a></li>
+      <li class="text-gray-400">/</li>
+      <li><a href="/turbany/" class="hover:text-black">{product.data.categoryName}</a></li>
+      <li class="text-gray-400">/</li>
+      <li class="text-black font-medium">{product.data.colorName}</li>
+    </ol>
+  </nav>
+
+  <main class="max-w-7xl mx-auto px-4 pb-16">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+      
+      <!-- Image Gallery -->
+      <div class="space-y-4">
+        <div class="aspect-square rounded-2xl overflow-hidden bg-gray-100">
+          {mainImage && (
+            <img
+              src={mainImage.default.src}
+              alt={product.data.title}
+              width={800}
+              height={800}
+              class="w-full h-full object-cover"
+              loading="eager"
+            />
+          )}
+        </div>
+        
+        <!-- Thumbnail placeholders for future carousel -->
+        {product.data.images.length > 1 && (
+          <div class="flex gap-2">
+            {product.data.images.map((img: string, index: number) => (
+              <button
+                class={`w-20 h-20 rounded-lg overflow-hidden border-2 ${index === 0 ? 'border-black' : 'border-transparent'}`}
+              >
+                <img src={images[`/src/assets/products/${img}`]?.default?.src} alt="" class="w-full h-full object-cover" />
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <!-- Product Info -->
+      <div class="flex flex-col">
+        <h1 class="text-3xl lg:text-4xl font-bold mb-4">{product.data.title}</h1>
+        
+        <!-- Price -->
+        <div class="mb-6">
+          {product.data.oldPrice && (
+            <span class="text-xl text-gray-400 line-through mr-3">{product.data.oldPrice} ₴</span>
+          )}
+          <span class="text-3xl font-bold">{product.data.price} ₴</span>
+        </div>
+
+        <!-- Short description -->
+        <p class="text-gray-600 mb-6">{product.data.shortDescription}</p>
+
+        <!-- Color Selector -->
+        <div class="mb-6">
+          <p class="text-sm text-gray-600 mb-3">
+            Колір: <span class="font-medium text-black">{product.data.colorName}</span>
+          </p>
+          <div class="flex gap-3">
+            {colorVariants.map((variant) => (
+              <a
+                href={`/turbany/${variant.data.slug}/`}
+                class={`w-10 h-10 rounded-full transition-all ${
+                  variant.data.slug === product.data.slug
+                    ? 'ring-2 ring-black ring-offset-2 scale-110'
+                    : 'border-2 border-gray-300 hover:scale-110'
+                }`}
+                style={`background-color: ${variant.data.hexColor}`}
+                title={variant.data.colorName}
+                aria-label={`Колір ${variant.data.colorName}`}
+              ></a>
+            ))}
+          </div>
+        </div>
+
+        <!-- Add to Cart Button -->
+        <button
+          type="button"
+          class="w-full bg-black text-white py-4 rounded-xl font-medium text-lg shadow-md hover:shadow-lg hover:bg-gray-900 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 mb-8"
+          x-data
+          @click={`
+            $store.cart.add('${product.data.productName}', '${product.data.color}', '${product.data.colorName}', ${product.data.price});
+            gtag('event', 'add_to_cart', {currency: 'UAH', value: ${product.data.price}, items: [{item_id: '${product.data.productName.toLowerCase().replace(/ /g, '-')}-${product.data.color}', item_name: '${product.data.productName}', item_variant: '${product.data.colorName}', price: ${product.data.price}, quantity: 1}]});
+            if (typeof zaraz !== 'undefined') { zaraz.ecommerce('Add to Cart', {products: [{product_id: '${product.data.productName.toLowerCase().replace(/ /g, '-')}-${product.data.color}', name: '${product.data.productName}', variant: '${product.data.colorName}', price: ${product.data.price}, quantity: 1}]}); }
+            $dispatch('open-cart');
+          `}
+        >
+          Додати в кошик
+        </button>
+
+        <!-- Features -->
+        <div class="grid grid-cols-2 gap-4 mb-8">
+          <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+            <span class="text-xl">🚚</span>
+            <span class="text-sm">Безкоштовна доставка</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+            <span class="text-xl">↩️</span>
+            <span class="text-sm">30 днів на повернення</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+            <span class="text-xl">🌿</span>
+            <span class="text-sm">100% натуральний шовк</span>
+          </div>
+          <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl">
+            <span class="text-xl">💧</span>
+            <span class="text-sm">Швидко вбирає вологу</span>
+          </div>
+        </div>
+
+        <!-- Product Content (from markdown) -->
+        <div class="prose prose-gray max-w-none">
+          <Content />
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Schema.org Product -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": product.data.title,
+    "description": product.data.metaDescription,
+    "image": `https://silkoni.com${mainImage?.default?.src}`,
+    "brand": {
+      "@type": "Brand",
+      "name": "SILKONI"
+    },
+    "color": product.data.colorName,
+    "offers": {
+      "@type": "Offer",
+      "price": product.data.price,
+      "priceCurrency": "UAH",
+      "availability": "https://schema.org/InStock",
+      "url": `https://silkoni.com/turbany/${product.data.slug}/`,
+      "priceValidUntil": "2026-12-31"
+    }
+  })} />
+
+</Layout>
