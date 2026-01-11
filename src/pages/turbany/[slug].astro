@@ -49,30 +49,86 @@ const mainImage = images[mainImagePath] as { default: ImageMetadata };
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
       
       <!-- Image Gallery -->
-      <div class="space-y-4">
-        <div class="aspect-square rounded-2xl overflow-hidden bg-gray-100">
-          {mainImage && (
-            <img
-              src={mainImage.default.src}
-              alt={product.data.title}
-              width={800}
-              height={800}
-              class="w-full h-full object-cover"
-              loading="eager"
-            />
-          )}
+      <div
+        class="space-y-4"
+        x-data="{
+          activeImage: 0,
+          touchStartX: 0,
+          touchEndX: 0,
+          totalImages: 0,
+          handleSwipe() {
+            const diff = this.touchStartX - this.touchEndX;
+            if (Math.abs(diff) > 50) {
+              if (diff > 0 && this.activeImage < this.totalImages - 1) {
+                this.activeImage++;
+              } else if (diff < 0 && this.activeImage > 0) {
+                this.activeImage--;
+              }
+            }
+          }
+        }"
+        x-init="totalImages = document.querySelectorAll('[data-gallery-image]').length"
+      >
+        <div
+          class="aspect-square rounded-2xl overflow-hidden bg-gray-100 cursor-grab active:cursor-grabbing"
+          @touchstart="touchStartX = $event.changedTouches[0].screenX"
+          @touchend="touchEndX = $event.changedTouches[0].screenX; handleSwipe()"
+        >
+          {product.data.images.map((img: string, index: number) => {
+            const imgPath = `/src/assets/products/${img}`;
+            const imgSrc = (images[imgPath] as { default: ImageMetadata })?.default?.src;
+            return (
+              <img
+                data-gallery-image
+                x-show={`activeImage === ${index}`}
+                x-transition:enter="transition ease-out duration-300"
+                x-transition:enter-start="opacity-0"
+                x-transition:enter-end="opacity-100"
+                src={imgSrc}
+                alt={`${product.data.title} - фото ${index + 1}`}
+                width={800}
+                height={800}
+                class="w-full h-full object-cover"
+                loading={index === 0 ? "eager" : "lazy"}
+              />
+            );
+          })}
         </div>
-        
-        <!-- Thumbnail placeholders for future carousel -->
+
+        <!-- Dots indicator (mobile) -->
         {product.data.images.length > 1 && (
-          <div class="flex gap-2">
-            {product.data.images.map((img: string, index: number) => (
+          <div class="flex justify-center gap-2 md:hidden">
+            {product.data.images.map((_: string, index: number) => (
               <button
-                class={`w-20 h-20 rounded-lg overflow-hidden border-2 ${index === 0 ? 'border-black' : 'border-transparent'}`}
-              >
-                <img src={images[`/src/assets/products/${img}`]?.default?.src} alt="" class="w-full h-full object-cover" />
-              </button>
+                type="button"
+                @click={`activeImage = ${index}`}
+                :class={`activeImage === ${index} ? 'bg-black w-6' : 'bg-gray-300'`}
+                class="h-2 rounded-full transition-all duration-300 w-2"
+                :style={`width: activeImage === ${index} ? '24px' : '8px'`}
+                aria-label={`Фото ${index + 1}`}
+              />
             ))}
+          </div>
+        )}
+
+        <!-- Thumbnails (desktop) -->
+        {product.data.images.length > 1 && (
+          <div class="hidden md:flex gap-2">
+            {product.data.images.map((img: string, index: number) => {
+              const imgPath = `/src/assets/products/${img}`;
+              const imgSrc = (images[imgPath] as { default: ImageMetadata })?.default?.src;
+              return (
+                <button
+                  type="button"
+                  @click={`activeImage = ${index}`}
+                  :class={`activeImage === ${index} ? 'border-black' : 'border-gray-200 hover:border-gray-400'`}
+                  class="w-20 h-20 rounded-lg overflow-hidden border-2 transition-colors"
+                  aria-label={`Переглянути фото ${index + 1}`}
+                >
+                  <img src={imgSrc} alt="" class="w-full h-full object-cover" />
+                </button>
+              );
+            })}
           </div>
         )}
       </div>
