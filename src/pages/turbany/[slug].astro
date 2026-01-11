@@ -120,14 +120,19 @@ const mainImage = images[mainImagePath] as { default: ImageMetadata };
         <!-- Add to Cart Button -->
         <button
           type="button"
-          class="w-full bg-black text-white py-4 rounded-xl font-medium text-lg shadow-md hover:shadow-lg hover:bg-gray-900 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 mb-8"
-          x-data
+          class="btn-add-to-cart w-full text-white py-4 rounded-xl text-lg font-medium focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+          x-data="{ added: false }"
           @click={`
-            $store.cart.add('${product.data.productName}', '${product.data.color}', '${product.data.colorName}', ${product.data.price});
-            gtag('event', 'add_to_cart', {currency: 'UAH', value: ${product.data.price}, items: [{item_id: '${product.data.productName.toLowerCase().replace(/ /g, '-')}-${product.data.color}', item_name: '${product.data.productName}', item_variant: '${product.data.colorName}', price: ${product.data.price}, quantity: 1}]});
-            if (typeof zaraz !== 'undefined') { zaraz.ecommerce('Add to Cart', {products: [{product_id: '${product.data.productName.toLowerCase().replace(/ /g, '-')}-${product.data.color}', name: '${product.data.productName}', variant: '${product.data.colorName}', price: ${product.data.price}, quantity: 1}]}); }
-            $dispatch('open-cart');
+            if (!added) {
+              $store.cart.add('${product.data.productName}', '${product.data.color}', '${product.data.colorName}', ${product.data.price});
+              if (typeof gtag !== 'undefined') gtag('event', 'add_to_cart', {currency: 'UAH', value: ${product.data.price}, items: [{item_id: '${product.id}', item_name: '${product.data.productName}', item_variant: '${product.data.colorName}', price: ${product.data.price}, quantity: 1}]});
+              if (typeof zaraz !== 'undefined') zaraz.ecommerce('Add to Cart', {products: [{product_id: '${product.id}', name: '${product.data.productName}', variant: '${product.data.colorName}', price: ${product.data.price}, quantity: 1}]});
+              added = true;
+              $el.classList.add('success');
+              setTimeout(() => { added = false; $el.classList.remove('success'); }, 2000);
+            }
           `}
+          x-text="added ? '✓ Додано!' : 'Додати в кошик'"
         >
           Додати в кошик
         </button>

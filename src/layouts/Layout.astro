@@ -153,6 +153,36 @@ import Footer from '@/components/Footer.astro';
 
     <!-- Theme -->
     <meta name="theme-color" content="#000000" />
+
+<style is:global>
+  /* Button hover with shadow */
+  .btn-add-to-cart {
+    background: #000;
+    transition: all 0.3s ease;
+  }
+
+  .btn-add-to-cart:hover {
+    background: #1f1f1f;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.3), 0 4px 6px -4px rgb(0 0 0 / 0.2);
+  }
+
+  /* Button success state */
+  .btn-add-to-cart.success {
+    background: #047857 !important;
+    pointer-events: none;
+  }
+
+  /* Cart badge bounce animation */
+  @keyframes bounce-badge {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.4); }
+  }
+
+  .badge-bounce {
+    animation: bounce-badge 0.4s ease;
+  }
+</style>
+
   </head>
   <body>
     <CartStore />

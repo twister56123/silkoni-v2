@@ -152,8 +152,19 @@ import benefitRitual from '@/assets/benefit-ritual.jpg';
 
             <button
               type="button"
-              class="w-full bg-black text-white py-3 rounded-md hover:bg-black/90 transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
-              @click="$store.cart.add('Шовкова наволочка', selectedColor, colors[selectedColor].name, 2190); gtag('event', 'add_to_cart', {currency: 'UAH', value: 2190, items: [{item_id: 'pillowcase-' + selectedColor, item_name: 'Шовкова наволочка', item_variant: colors[selectedColor].name, price: 2190, quantity: 1}]}); zaraz.ecommerce('Add to Cart', {products: [{product_id: 'pillowcase-' + selectedColor, name: 'Шовкова наволочка', variant: colors[selectedColor].name, price: 2190, quantity: 1}]})"
+              class="btn-add-to-cart w-full text-white py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+              x-data="{ added: false }"
+              @click="
+                if (!added) {
+                  $store.cart.add('Шовкова наволочка', selectedColor, colors[selectedColor].name, 2190);
+                  if (typeof gtag !== 'undefined') gtag('event', 'add_to_cart', {currency: 'UAH', value: 2190, items: [{item_id: 'pillowcase-' + selectedColor, item_name: 'Шовкова наволочка', item_variant: colors[selectedColor].name, price: 2190, quantity: 1}]});
+                  if (typeof zaraz !== 'undefined') zaraz.ecommerce('Add to Cart', {products: [{product_id: 'pillowcase-' + selectedColor, name: 'Шовкова наволочка', variant: colors[selectedColor].name, price: 2190, quantity: 1}]});
+                  added = true;
+                  $el.classList.add('success');
+                  setTimeout(() => { added = false; $el.classList.remove('success'); }, 2000);
+                }
+              "
+              x-text="added ? '✓ Додано!' : 'Додати в кошик'"
             >
               Додати в кошик
             </button>
@@ -227,8 +238,19 @@ import benefitRitual from '@/assets/benefit-ritual.jpg';
 
             <button
               type="button"
-              class="w-full bg-black text-white py-3 rounded-xl shadow-md hover:shadow-lg hover:bg-gray-900 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
-@click="$store.cart.add('Шовковий тюрбан', selectedColor, colors[selectedColor].name, 1990); gtag('event', 'add_to_cart', {currency: 'UAH', value: 1990, items: [{item_id: 'turban-' + selectedColor, item_name: 'Шовковий тюрбан', item_variant: colors[selectedColor].name, price: 1990, quantity: 1}]}); zaraz.ecommerce('Add to Cart', {products: [{product_id: 'turban-' + selectedColor, name: 'Шовковий тюрбан', variant: colors[selectedColor].name, price: 1990, quantity: 1}]})"
+              class="btn-add-to-cart w-full text-white py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+              x-data="{ added: false }"
+              @click="
+                if (!added) {
+                  $store.cart.add('Шовковий тюрбан', selectedColor, colors[selectedColor].name, 1990);
+                  if (typeof gtag !== 'undefined') gtag('event', 'add_to_cart', {currency: 'UAH', value: 1990, items: [{item_id: 'turban-' + selectedColor, item_name: 'Шовковий тюрбан', item_variant: colors[selectedColor].name, price: 1990, quantity: 1}]});
+                  if (typeof zaraz !== 'undefined') zaraz.ecommerce('Add to Cart', {products: [{product_id: 'turban-' + selectedColor, name: 'Шовковий тюрбан', variant: colors[selectedColor].name, price: 1990, quantity: 1}]});
+                  added = true;
+                  $el.classList.add('success');
+                  setTimeout(() => { added = false; $el.classList.remove('success'); }, 2000);
+                }
+              "
+              x-text="added ? '✓ Додано!' : 'Додати в кошик'"
             >
               Додати в кошик
             </button>
