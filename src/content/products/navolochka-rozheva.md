@@ -1,6 +1,5 @@
 ---
 title: "Шовкова наволочка Рожева"
-slug: "rozheva"
 
 category: "navolochky"
 categoryName: "Наволочки"

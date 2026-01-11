@@ -1,6 +1,5 @@
 ---
 title: "Шовковий тюрбан Травʼяний"
-slug: "travianyi"
 
 category: "turbany"
 categoryName: "Тюрбани"

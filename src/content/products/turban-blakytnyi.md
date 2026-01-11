@@ -1,6 +1,5 @@
 ---
 title: "Шовковий тюрбан Блакитний"
-slug: "blakytnyi"
 
 category: "turbany"
 categoryName: "Тюрбани"

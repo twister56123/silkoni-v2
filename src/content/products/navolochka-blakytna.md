@@ -1,6 +1,5 @@
 ---
 title: "Шовкова наволочка Блакитна"
-slug: "blakytna"
 
 category: "navolochky"
 categoryName: "Наволочки"

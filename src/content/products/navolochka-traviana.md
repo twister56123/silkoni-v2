@@ -1,6 +1,5 @@
 ---
 title: "Шовкова наволочка Травʼяна"
-slug: "traviana"
 
 category: "navolochky"
 categoryName: "Наволочки"

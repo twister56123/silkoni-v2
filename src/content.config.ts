@@ -5,7 +5,6 @@ const products = defineCollection({
   schema: z.object({
     // Basic info
     title: z.string(), // "Шовкова наволочка Айворі"
-    slug: z.string().optional(), // "aivori"
 
     // Category
     category: z.enum(["navolochky", "turbany"]), // URL segment

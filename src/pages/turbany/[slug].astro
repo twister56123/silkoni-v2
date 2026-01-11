@@ -3,16 +3,21 @@ import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
 
 export async function getStaticPaths() {
-  const allProducts = await getCollection('products');
-  const products = allProducts.filter(({ data }) => data.category === 'turbany' && data.active);
+  const products = await getCollection('products', ({ data }) => {
+    return data.category === 'turbany' && data.active;
+  });
 
-  return products.map((product) => ({
-    params: { slug: product.id.replace('.md', '').split('-').pop() || 'default' },
-    props: { product },
-  }));
+  return products.map((product) => {
+    // Extract color from filename: "turban-aivori" → "aivori"
+    const slug = product.id.replace('.md', '').replace('turban-', '');
+    return {
+      params: { slug },
+      props: { product, slug },
+    };
+  });
 }
 
-const { product } = Astro.props;
+const { product, slug } = Astro.props;
 const { Content } = await product.render();
 
 // Get all colors for this product type (for color switcher)
@@ -93,19 +98,22 @@ const mainImage = images[mainImagePath] as { default: ImageMetadata };
             Колір: <span class="font-medium text-black">{product.data.colorName}</span>
           </p>
           <div class="flex gap-3">
-            {colorVariants.map((variant) => (
-              <a
-                href={`/turbany/${variant.data.slug}/`}
-                class={`w-10 h-10 rounded-full transition-all ${
-                  variant.data.slug === product.data.slug
-                    ? 'ring-2 ring-black ring-offset-2 scale-110'
-                    : 'border-2 border-gray-300 hover:scale-110'
-                }`}
-                style={`background-color: ${variant.data.hexColor}`}
-                title={variant.data.colorName}
-                aria-label={`Колір ${variant.data.colorName}`}
-              ></a>
-            ))}
+            {colorVariants.map((variant) => {
+              const variantSlug = variant.id.replace('.md', '').replace('turban-', '');
+              return (
+                <a
+                  href={`/turbany/${variantSlug}/`}
+                  class={`w-10 h-10 rounded-full transition-all ${
+                    variantSlug === slug
+                      ? 'ring-2 ring-black ring-offset-2 scale-110'
+                      : 'border-2 border-gray-300 hover:scale-110'
+                  }`}
+                  style={`background-color: ${variant.data.hexColor}`}
+                  title={variant.data.colorName}
+                  aria-label={`Колір ${variant.data.colorName}`}
+                ></a>
+              );
+            })}
           </div>
         </div>
 
@@ -169,7 +177,7 @@ const mainImage = images[mainImagePath] as { default: ImageMetadata };
       "price": product.data.price,
       "priceCurrency": "UAH",
       "availability": "https://schema.org/InStock",
-      "url": `https://silkoni.com/turbany/${product.data.slug}/`,
+      "url": `https://silkoni.com/turbany/${slug}/`,
       "priceValidUntil": "2026-12-31"
     }
   })} />

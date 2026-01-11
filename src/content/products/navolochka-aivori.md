@@ -1,6 +1,5 @@
 ---
 title: "Шовкова наволочка Айворі"
-slug: "aivori"
 
 category: "navolochky"
 categoryName: "Наволочки"

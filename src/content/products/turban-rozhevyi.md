@@ -1,6 +1,5 @@
 ---
 title: "Шовковий тюрбан Рожевий"
-slug: "rozhevyi"
 
 category: "turbany"
 categoryName: "Тюрбани"

@@ -1,6 +1,5 @@
 ---
 title: "Шовковий тюрбан Айворі"
-slug: "aivori"
 
 category: "turbany"
 categoryName: "Тюрбани"
