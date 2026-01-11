@@ -87,10 +87,14 @@ const mainImage = images[mainImagePath] as { default: ImageMetadata };
               <button
                 type="button"
                 @click={`activeImage = ${index}`}
-                :class={`activeImage === ${index} ? 'bg-black w-6' : 'bg-gray-300 w-2'`}
-                class="h-2 rounded-full transition-all duration-300"
+                class="p-3 -m-2"
                 aria-label={`Фото ${index + 1}`}
-              />
+              >
+                <span
+                  :class={`activeImage === ${index} ? 'bg-black w-6' : 'bg-gray-300 w-2'`}
+                  class="block h-2 rounded-full transition-all duration-300"
+                ></span>
+              </button>
             ))}
           </div>
         )}
